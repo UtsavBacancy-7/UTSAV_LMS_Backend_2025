@@ -1,20 +1,35 @@
+using LMS_Backend.LMS.API.Middlewares;
+using LMS_Backend.LMS.Infrastructure.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Explicitly set the configuration for appsettings.json
+builder.Configuration.SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "LMS.API"))
+                     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                     .AddEnvironmentVariables();
+
+// Register all repositories dynamically
+builder.Services.AddRepositories();
+
+// Register all services dynamically
+builder.Services.AddServices();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<LogMiddleware>();
+
+app.UseMiddleware<RateLimitMiddleware>();
 
 app.UseHttpsRedirection();
 
