@@ -1,8 +1,9 @@
 using LMS_Backend.LMS.API.Middlewares;
+using LMS_Backend.LMS.Infrastructure.Context;
 using LMS_Backend.LMS.Infrastructure.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -12,6 +13,11 @@ builder.Services.AddSwaggerGen();
 builder.Configuration.SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "LMS.API"))
                      .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                      .AddEnvironmentVariables();
+
+// Database connection
+builder.Services.AddDbContext<ApplicationDBContext>(option => {
+    option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 
 // Register all repositories dynamically
 builder.Services.AddRepositories();
