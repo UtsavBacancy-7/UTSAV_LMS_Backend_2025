@@ -1,9 +1,10 @@
 ﻿using System.Net.Mail;
 using System.Net;
+using LMS_Backend.LMS.Application.Interfaces;
 
 namespace LMS_Backend.LMS.Infrastructure.Helpers
 {
-    public class EmailHelper
+    public class EmailHelper : IEmailService
     {
         private readonly IConfiguration _configuration;
 
