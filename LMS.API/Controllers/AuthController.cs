@@ -9,6 +9,7 @@ namespace LMS_Backend.LMS.API.Controllers
     //[ApiVersion("1.0")]
     //[Route("api/v{version:apiVersion}/[controller]")]
     [Route("api/v1/[controller]")]
+    [Produces("application/json")]
     public class AuthController : ControllerBase
     {
         private readonly IAuthRepository _authRepository;
@@ -27,7 +28,7 @@ namespace LMS_Backend.LMS.API.Controllers
             try
             {
                 var message = await _authRepository.RegisterAsync(register);
-                return Ok(message);
+                return Ok(new { Message = message });
             }
             catch (DataNotFoundException<string> ex)
             {
@@ -40,15 +41,15 @@ namespace LMS_Backend.LMS.API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login(LoginDTO userLoginDTO)
+        public async Task<ActionResult<LoginResponseDTO>> Login(LoginDTO userLoginDTO)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             try
             {
-                var token = await _authRepository.LoginAsync(userLoginDTO);
-                return Ok(new { Token = token });
+                var loginResponse = await _authRepository.LoginAsync(userLoginDTO);
+                return Ok(loginResponse);
             }
             catch (DataNotFoundException<string> ex)
             {

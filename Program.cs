@@ -45,6 +45,20 @@ builder.Services.AddRepositories();
 // Register all services dynamically
 builder.Services.AddServices();
 
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("RestrictedCors", builder =>
+    {
+        builder
+            .WithOrigins("http://localhost:4200")
+            .WithMethods("GET", "POST", "PUT", "DELETE", "PATCH")
+            .WithHeaders("Content-Type", "Authorization")
+            .AllowCredentials();
+    });
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -53,11 +67,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("RestrictedCors");
+
 app.UseMiddleware<LogMiddleware>();
 
 app.UseMiddleware<RateLimitMiddleware>();
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

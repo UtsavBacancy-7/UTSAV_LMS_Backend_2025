@@ -1,7 +1,4 @@
 ﻿using System.Collections.Concurrent;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 
 namespace LMS_Backend.LMS.API.Middlewares
 {
@@ -51,7 +48,6 @@ namespace LMS_Backend.LMS.API.Middlewares
                 _requestCounts[ipAddress] = (1, DateTime.UtcNow.Add(TIME_WINDOW));
             }
 
-            // Call the next middleware
             await _next(httpContext);
         }
     }

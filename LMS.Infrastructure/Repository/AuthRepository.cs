@@ -6,6 +6,7 @@ using LMS_Backend.LMS.Infrastructure.Helpers;
 using LMS_Backend.LMS.Application.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using LMS_Backend.LMS.Infrastructure.Context;
+using LMS_Backend.LMS.Application.DTOs.NewFolder;
 
 namespace LMS_Backend.LMS.Infrastructure.Repository
 {
@@ -22,7 +23,7 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
             _jwtTokenHelper = jwtTokenHelper;
         }
 
-        public async Task<string> LoginAsync(LoginDTO userLogin)
+        public async Task<object> LoginAsync(LoginDTO userLogin)
         {
             var user = await _authService.GetUserByEmailAsync(userLogin.Email);
 
@@ -39,7 +40,20 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
             Console.WriteLine("-----------------------------");
             Console.WriteLine("JWT Token: " + token);
 
-            return token;
+            var userDto = new UserDTO
+            {
+                Id = user.UserId,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Role = user.Role.RoleName
+            };
+
+            return new
+            {
+                token,
+                user = userDto
+            };
         }
 
         public async Task<bool> ResetPassword(ResetPwdDTO resetPwd)
@@ -52,7 +66,7 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
             return await _authService.UpdatePasswordDB(resetPwd.NewPassword, user);
         }
 
-        public async Task<string> SendOtpToEmail(ForgotPwdDTO dto)
+        public async Task<int> SendOtpToEmail(ForgotPwdDTO dto)
         {
             return await _authService.GenerateAndSendOtpAsync(dto.Email);
         }
@@ -87,7 +101,9 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
             await _context.Users.AddAsync(newUser);
             await _context.SaveChangesAsync();
 
-            return "New User is registered successfully.";
+            await _emailService.SendStudentRegistrationEmailAsync(register.Email, (register.FirstName + " " + register.LastName));
+
+            return "User is registered successfully.";
         }
     }
 }

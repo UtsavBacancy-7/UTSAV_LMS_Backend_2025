@@ -1,5 +1,4 @@
-﻿using LMS_Backend.LMS.Application.DTOs;
-using LMS_Backend.LMS.Application.DTOs.Authentication;
+﻿using LMS_Backend.LMS.Application.DTOs.Authentication;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -15,7 +14,6 @@ namespace LMS_Backend.LMS.Infrastructure.Helpers
             _configuration = configuration;
         }
 
-        // Token generation for user login
         internal string GenerateToken(LoginDTO login, int roleId, int userId)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]));

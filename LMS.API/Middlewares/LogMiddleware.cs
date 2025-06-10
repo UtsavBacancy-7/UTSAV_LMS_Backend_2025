@@ -1,13 +1,10 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-
+﻿
 namespace LMS_Backend.LMS.API.Middlewares
 {
     public class LogMiddleware
     {
         private readonly RequestDelegate _next;
-        private const string LogFilePath = "logs.txt"; // Log file path
+        private const string LogFilePath = "logs.txt"; 
         public LogMiddleware(RequestDelegate next)
         {
             _next = next;

@@ -9,7 +9,7 @@ namespace LMS_Backend.LMS.Application.DTOs.Authentication
         public string Email { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "OTP is required.")]
-        public string Otp { get; set; }
+        public int Otp { get; set; }
 
         [Required(ErrorMessage = "New password is required.")]
         [StringLength(100, MinimumLength = 8, ErrorMessage = "Password must be between 8 and 100 characters.")]

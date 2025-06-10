@@ -24,7 +24,7 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
         {
             try
             {
-                var user = await _context.Users.FirstOrDefaultAsync(e => e.Email == email);
+                var user = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(e => e.Email == email);
 
                 if (user == null || !user.IsActive)
                     throw new DataNotFoundException<string>("USER NOT FOUND.");
@@ -78,11 +78,11 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
             }
         }
 
-        public async Task<string> GenerateAndSendOtpAsync(string email)
+        public async Task<int> GenerateAndSendOtpAsync(string email)
         {
             var user = await GetUserByEmailAsync(email);
 
-            string otp = new Random().Next(100000, 999999).ToString();
+            int otp = new Random().Next(100000, 999999);
 
             OtpStore.UserOtps[email] = (otp, DateTime.UtcNow.AddMinutes(10));
 
