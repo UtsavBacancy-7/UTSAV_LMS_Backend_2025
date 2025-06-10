@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Asp.Versioning;
 using LMS_Backend.LMS.API.Middlewares;
 using LMS_Backend.LMS.Infrastructure.Context;
 using LMS_Backend.LMS.Infrastructure.Extensions;
@@ -45,7 +46,22 @@ builder.Services.AddRepositories();
 // Register all services dynamically
 builder.Services.AddServices();
 
-builder.Services.AddEndpointsApiExplorer();
+// API Versioning
+builder.Services.AddApiVersioning(options =>
+{
+    options.DefaultApiVersion = new ApiVersion(1);
+    options.ReportApiVersions = true;
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.ApiVersionReader = ApiVersionReader.Combine(
+        new UrlSegmentApiVersionReader(),
+        new HeaderApiVersionReader("X-Api-Version"));
+})
+.AddMvc() 
+.AddApiExplorer(options =>
+{
+    options.GroupNameFormat = "'v'V";
+    options.SubstituteApiVersionInUrl = true;
+});
 
 builder.Services.AddCors(options =>
 {

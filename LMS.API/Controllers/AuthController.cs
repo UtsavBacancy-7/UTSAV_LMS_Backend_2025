@@ -1,4 +1,5 @@
-﻿using LMS_Backend.LMS.Application.DTOs.Authentication;
+﻿using Asp.Versioning;
+using LMS_Backend.LMS.Application.DTOs.Authentication;
 using LMS_Backend.LMS.Application.Interfaces.Authentication;
 using LMS_Backend.LMS.Common.Exceptions;
 using Microsoft.AspNetCore.Mvc;
@@ -6,9 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace LMS_Backend.LMS.API.Controllers
 {
     [ApiController]
-    //[ApiVersion("1.0")]
-    //[Route("api/v{version:apiVersion}/[controller]")]
-    [Route("api/v1/[controller]")]
+    [ApiVersion(1)]
+    [Route("api/v{v:apiVersion}/auth")]
     [Produces("application/json")]
     public class AuthController : ControllerBase
     {
