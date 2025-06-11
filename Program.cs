@@ -3,13 +3,14 @@ using Asp.Versioning;
 using LMS_Backend.LMS.API.Middlewares;
 using LMS_Backend.LMS.Infrastructure.Context;
 using LMS_Backend.LMS.Infrastructure.Extensions;
+using LMS_Backend.LMS.Infrastructure.Mappers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -63,6 +64,7 @@ builder.Services.AddApiVersioning(options =>
     options.SubstituteApiVersionInUrl = true;
 });
 
+// CORs Policy
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("RestrictedCors", builder =>
@@ -74,6 +76,9 @@ builder.Services.AddCors(options =>
             .AllowCredentials();
     });
 });
+
+// Register AutoMapper 
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 var app = builder.Build();
 

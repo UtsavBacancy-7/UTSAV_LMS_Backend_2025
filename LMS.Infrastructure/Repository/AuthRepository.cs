@@ -46,7 +46,8 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Role = user.Role.RoleName
+                Role = user.Role.RoleName,
+                ProfileImageUrl = user.ProfileImageUrl
             };
 
             return new
