@@ -31,7 +31,6 @@ namespace LMS_Backend.LMS.Domain.Entities
         [StringLength(1000, ErrorMessage = "Description cannot exceed 1000 characters")]
         public string? Description { get; set; }
 
-        [StringLength(300, ErrorMessage = "Cover image URL cannot exceed 300 characters")]
         public string? CoverImageUrl { get; set; }
 
         [Range(0, int.MaxValue, ErrorMessage = "Total copies must be a non-negative number")]

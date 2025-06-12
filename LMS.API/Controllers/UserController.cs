@@ -52,6 +52,7 @@ namespace LMS_Backend.LMS.API.Controllers
             try
             {
                 var users = await _userService.GetAllUsersAsync();
+                Console.WriteLine(users);
                 return Ok(new { success = true, message = "Users fetched successfully.", data = users });
             }
             catch (Exception ex)
@@ -115,13 +116,19 @@ namespace LMS_Backend.LMS.API.Controllers
         }
 
         [HttpPatch]
-        public async Task<IActionResult> PatchUser([FromQuery]int id, [FromBody] JsonPatchDocument<UserDataDTO> patchDoc)
+        public async Task<IActionResult> PatchUser( [FromQuery] int id, [FromBody] JsonPatchDocument<UserDataDTO> patchDoc)
         {
             if (patchDoc == null)
+            {
                 return BadRequest(new { success = false, message = "Invalid patch document." });
+            }
 
             try
             {
+                //public bool MyBool { get; set; }
+
+                Console.WriteLine($"Received boolean value from client: {patchDoc}");
+
                 var updatedBy = GetLoggedInUserId();
                 var result = await _userService.PatchUserAsync(id, patchDoc, updatedBy);
 

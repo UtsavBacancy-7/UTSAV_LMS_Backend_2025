@@ -24,9 +24,9 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
         {
             try
             {
-                var user = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(e => e.Email == email);
+                var user = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(e => e.Email == email && e.IsActive == true);
 
-                if (user == null || !user.IsActive)
+                if (user == null)
                     throw new DataNotFoundException<string>("USER NOT FOUND.");
 
                 return user;

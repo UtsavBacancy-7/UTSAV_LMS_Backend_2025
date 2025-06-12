@@ -38,7 +38,6 @@
 
   <ItemGroup>
     <Folder Include="LMS.Domain\Common\" />
-    <Folder Include="LMS.Infrastructure\Scipts\" />
   </ItemGroup>
 
   <ItemGroup>

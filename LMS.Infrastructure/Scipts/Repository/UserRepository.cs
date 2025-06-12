@@ -35,6 +35,7 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
             var hashedPassword = passwordHasher.HashPassword(userDto, userDto.PasswordHash);
 
             var newUser = _mapper.Map<User>(userDto);
+            newUser.IsActive = true;
             newUser.CreatedBy = createdBy;
             newUser.CreatedAt = DateTime.UtcNow;
             newUser.PasswordHash = hashedPassword;
@@ -90,7 +91,8 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
 
         public async Task<bool> PatchUserQuery(int id, JsonPatchDocument<UserDataDTO> patchDoc, int updatedBy)
         {
-            var existingUser = await _context.Users.FindAsync(id);
+            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id && !u.IsDeleted); 
+
             if (existingUser == null || existingUser.IsDeleted) return false;
 
             var userDto = _mapper.Map<UserDataDTO>(existingUser);
