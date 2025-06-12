@@ -51,7 +51,6 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
             return newUser.UserId;
         }
 
-
         public async Task<bool> DeleteUserQuery(int id, int deletedBy)
         {
             var user = await _context.Users.FindAsync(id);

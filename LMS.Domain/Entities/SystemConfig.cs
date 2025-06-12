@@ -5,12 +5,12 @@ namespace LMS_Backend.LMS.Domain.Entities
     public class SystemConfig : BaseEntity
     {
         [Key]
-        public int ConfigId { get; set; }
+        public int? ConfigId { get; set; }
 
         [Required]
         public string ConfigKey { get; set; }
 
         public string ConfigValue { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
     }
 }
