@@ -5,8 +5,8 @@ namespace LMS_Backend.LMS.Application.Interfaces.BooksManagement
 {
     public interface IBookRepository
     {
-        Task<BookDTO> GetBookByIdQuery(int id);
-        Task<IEnumerable<BookDTO>> GetAllBooksQuery();
+        Task<GetBookDTO> GetBookByIdQuery(int id);
+        Task<IEnumerable<GetBookDTO>> GetAllBooksQuery();
         Task<bool> AddBookQuery(BookDTO book, int createdBy);
         Task<bool> PatchBookQuery(int id, JsonPatchDocument<BookDTO> patchDoc, int updatedBy);
         Task<bool> UpdateBookQuery(int id, BookDTO bookDto, int updatedBy);

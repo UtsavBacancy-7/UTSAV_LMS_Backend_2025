@@ -46,21 +46,22 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<IEnumerable<BookDTO>> GetAllBooksQuery()
+        public async Task<IEnumerable<GetBookDTO>> GetAllBooksQuery()
         {
-            var books = await _context.Books
+            var books = await _context.Books.Include(s => s.Genre)
                 .Where(b => !b.IsDeleted)
                 .ToListAsync();
 
-            return _mapper.Map<IEnumerable<BookDTO>>(books);
+            return _mapper.Map<IEnumerable<GetBookDTO>>(books);
         }
 
-        public async Task<BookDTO> GetBookByIdQuery(int id)
+        public async Task<GetBookDTO> GetBookByIdQuery(int id)
         {
             var book = await _context.Books
+                .Include(s => s.Genre)
                 .FirstOrDefaultAsync(b => b.BookId == id && !b.IsDeleted);
 
-            return _mapper.Map<BookDTO>(book);
+            return _mapper.Map<GetBookDTO>(book);
         }
 
         public async Task<bool> PatchBookQuery(int id, JsonPatchDocument<BookDTO> patchDoc, int updatedBy)

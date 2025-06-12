@@ -24,7 +24,7 @@ namespace LMS_Backend.LMS.Application.DTOs.BookManagement
         public string Publisher { get; set; }
 
         [Required(ErrorMessage = "Genre is required")]
-        public int GenreId { get; set; }
+        public int? GenreId { get; set; }
 
         [StringLength(1000, ErrorMessage = "Description cannot exceed 1000 characters")]
         public string? Description { get; set; }

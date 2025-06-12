@@ -17,6 +17,12 @@ namespace LMS_Backend.LMS.Infrastructure.Mappers
                 .ReverseMap()
                 .ForMember(dest => dest.BookId, opt => opt.Ignore());
 
+            CreateMap<Book, GetBookDTO>()
+                .ForMember(dest => dest.id, opt => opt.MapFrom(src => src.BookId))
+                .ForMember(dest => dest.GenreName, opt => opt.MapFrom(src => src.Genre.GenreName)) 
+                .ReverseMap()
+                .ForMember(dest => dest.BookId, opt => opt.Ignore());
+
             CreateMap<User, UserDTO>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.UserId))
                 .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role != null ? src.Role.RoleName : string.Empty));

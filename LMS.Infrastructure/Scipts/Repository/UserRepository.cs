@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LMS_Backend.LMS.Application.DTOs.User;
 using LMS_Backend.LMS.Application.DTOs.UserManagement;
+using LMS_Backend.LMS.Application.Interfaces;
 using LMS_Backend.LMS.Application.Interfaces.UserManagement;
 using LMS_Backend.LMS.Common.Exceptions;
 using LMS_Backend.LMS.Domain.Entities;
@@ -13,10 +14,11 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
 {
     public class UserRepository : GenericRepository<User>, IUserRepository
     {
+        private readonly IEmailService _emailService;
         private readonly IMapper _mapper;
-
-        public UserRepository(ApplicationDBContext context, IMapper mapper) : base(context)
+        public UserRepository(ApplicationDBContext context, IMapper mapper, IEmailService emailService) : base(context)
         {
+            _emailService = emailService;
             _mapper = mapper;
         }
 
@@ -43,6 +45,8 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
 
             await _context.Users.AddAsync(newUser);
             await _context.SaveChangesAsync();
+
+            await _emailService.SendUserRegistrationEmailAsync(newUser.Email, userDto.PasswordHash);
 
             return newUser.UserId;
         }

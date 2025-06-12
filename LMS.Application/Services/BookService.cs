@@ -23,12 +23,12 @@ namespace LMS_Backend.LMS.Application.Services
             return await _bookRepository.DeleteBookQuery(id, deletedBy);
         }
 
-        public async Task<IEnumerable<BookDTO>> GetAllBooksAsync()
+        public async Task<IEnumerable<GetBookDTO>> GetAllBooksAsync()
         {
             return await _bookRepository.GetAllBooksQuery();
         }
 
-        public async Task<BookDTO> GetBookByIdAsync(int id)
+        public async Task<GetBookDTO> GetBookByIdAsync(int id)
         {
             return await _bookRepository.GetBookByIdQuery(id);
         }
