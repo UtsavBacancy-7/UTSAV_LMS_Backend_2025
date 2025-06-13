@@ -4,6 +4,7 @@ using LMS_Backend.LMS.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LMS_Backend.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250613092627_is_deleted_remove_transaction")]
+    partial class is_deleted_remove_transaction
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -221,9 +224,6 @@ namespace LMS_Backend.Migrations
                     b.Property<DateOnly?>("DueDate")
                         .HasColumnType("date");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
                     b.Property<decimal?>("Penalty")
                         .HasColumnType("decimal(18,2)");
 
@@ -291,77 +291,77 @@ namespace LMS_Backend.Migrations
                         new
                         {
                             GenreId = 1,
-                            CreatedAt = new DateTime(2025, 6, 13, 9, 56, 36, 324, DateTimeKind.Utc).AddTicks(2088),
+                            CreatedAt = new DateTime(2025, 6, 13, 9, 26, 26, 603, DateTimeKind.Utc).AddTicks(7746),
                             Description = "Futuristic and scientific concepts",
                             GenreName = "Science Fiction"
                         },
                         new
                         {
                             GenreId = 2,
-                            CreatedAt = new DateTime(2025, 6, 13, 9, 56, 36, 324, DateTimeKind.Utc).AddTicks(2090),
+                            CreatedAt = new DateTime(2025, 6, 13, 9, 26, 26, 603, DateTimeKind.Utc).AddTicks(7748),
                             Description = "Crime and secret unraveling",
                             GenreName = "Mystery"
                         },
                         new
                         {
                             GenreId = 3,
-                            CreatedAt = new DateTime(2025, 6, 13, 9, 56, 36, 324, DateTimeKind.Utc).AddTicks(2092),
+                            CreatedAt = new DateTime(2025, 6, 13, 9, 26, 26, 603, DateTimeKind.Utc).AddTicks(7750),
                             Description = "Life stories of individuals",
                             GenreName = "Biography"
                         },
                         new
                         {
                             GenreId = 4,
-                            CreatedAt = new DateTime(2025, 6, 13, 9, 56, 36, 324, DateTimeKind.Utc).AddTicks(2093),
+                            CreatedAt = new DateTime(2025, 6, 13, 9, 26, 26, 603, DateTimeKind.Utc).AddTicks(7829),
                             Description = "Personal development books",
                             GenreName = "Self Help"
                         },
                         new
                         {
                             GenreId = 5,
-                            CreatedAt = new DateTime(2025, 6, 13, 9, 56, 36, 324, DateTimeKind.Utc).AddTicks(2095),
+                            CreatedAt = new DateTime(2025, 6, 13, 9, 26, 26, 603, DateTimeKind.Utc).AddTicks(7831),
                             Description = "Magical and supernatural worlds",
                             GenreName = "Fantasy"
                         },
                         new
                         {
                             GenreId = 6,
-                            CreatedAt = new DateTime(2025, 6, 13, 9, 56, 36, 324, DateTimeKind.Utc).AddTicks(2097),
+                            CreatedAt = new DateTime(2025, 6, 13, 9, 26, 26, 603, DateTimeKind.Utc).AddTicks(7832),
                             Description = "Love stories and relationships",
                             GenreName = "Romance"
                         },
                         new
                         {
                             GenreId = 7,
-                            CreatedAt = new DateTime(2025, 6, 13, 9, 56, 36, 324, DateTimeKind.Utc).AddTicks(2098),
+                            CreatedAt = new DateTime(2025, 6, 13, 9, 26, 26, 603, DateTimeKind.Utc).AddTicks(7834),
                             Description = "Scary and thrilling stories",
                             GenreName = "Horror"
                         },
                         new
                         {
                             GenreId = 8,
-                            CreatedAt = new DateTime(2025, 6, 13, 9, 56, 36, 324, DateTimeKind.Utc).AddTicks(2100),
+                            CreatedAt = new DateTime(2025, 6, 13, 9, 26, 26, 603, DateTimeKind.Utc).AddTicks(7835),
                             Description = "Historical events and narratives",
                             GenreName = "History"
                         },
                         new
                         {
                             GenreId = 9,
-                            CreatedAt = new DateTime(2025, 6, 13, 9, 56, 36, 324, DateTimeKind.Utc).AddTicks(2101),
+                            CreatedAt = new DateTime(2025, 6, 13, 9, 26, 26, 603, DateTimeKind.Utc).AddTicks(7837),
                             Description = "Fast-paced and suspenseful stories",
                             GenreName = "Thriller"
                         },
                         new
                         {
                             GenreId = 10,
-                            CreatedAt = new DateTime(2025, 6, 13, 9, 56, 36, 324, DateTimeKind.Utc).AddTicks(2103),
+                            CreatedAt = new DateTime(2025, 6, 13, 9, 26, 26, 603, DateTimeKind.Utc).AddTicks(7838),
                             Description = "Books for kids and young readers",
                             GenreName = "Children's"
                         },
                         new
                         {
                             GenreId = 11,
-                            CreatedAt = new DateTime(2025, 6, 13, 9, 56, 36, 324, DateTimeKind.Utc).AddTicks(2104),
+                            CreatedAt = new DateTime(2025, 6, 13, 9, 26, 26, 603, DateTimeKind.Utc).AddTicks(7840),
                             Description = "Covers books that do not fit into any predefined genre categories.",
                             GenreName = "Others"
                         });
@@ -407,11 +407,11 @@ namespace LMS_Backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReturnRequestId"));
 
+                    b.Property<DateTime?>("ApprovedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<int?>("ApprovedBy")
                         .HasColumnType("int");
-
-                    b.Property<DateOnly?>("ApprovedDate")
-                        .HasColumnType("date");
 
                     b.Property<int>("BorrowRequestId")
                         .HasColumnType("int");
@@ -428,17 +428,14 @@ namespace LMS_Backend.Migrations
                     b.Property<int?>("DeletedBy")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
                     b.Property<bool?>("PenaltyFinlized")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime>("RequestedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("RequestedBy")
                         .HasColumnType("int");
-
-                    b.Property<DateOnly>("RequestedDate")
-                        .HasColumnType("date");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -490,21 +487,21 @@ namespace LMS_Backend.Migrations
                         new
                         {
                             RoleId = 1,
-                            CreatedAt = new DateTime(2025, 6, 13, 9, 56, 36, 324, DateTimeKind.Utc).AddTicks(1806),
+                            CreatedAt = new DateTime(2025, 6, 13, 9, 26, 26, 603, DateTimeKind.Utc).AddTicks(7533),
                             CreatedBy = 0,
                             RoleName = "Administrator"
                         },
                         new
                         {
                             RoleId = 2,
-                            CreatedAt = new DateTime(2025, 6, 13, 9, 56, 36, 324, DateTimeKind.Utc).AddTicks(1810),
+                            CreatedAt = new DateTime(2025, 6, 13, 9, 26, 26, 603, DateTimeKind.Utc).AddTicks(7536),
                             CreatedBy = 0,
                             RoleName = "Librarian"
                         },
                         new
                         {
                             RoleId = 3,
-                            CreatedAt = new DateTime(2025, 6, 13, 9, 56, 36, 324, DateTimeKind.Utc).AddTicks(1812),
+                            CreatedAt = new DateTime(2025, 6, 13, 9, 26, 26, 603, DateTimeKind.Utc).AddTicks(7538),
                             CreatedBy = 0,
                             RoleName = "Student"
                         });
@@ -551,7 +548,7 @@ namespace LMS_Backend.Migrations
                             ConfigId = 1,
                             ConfigKey = "MaxBorrowPeriod",
                             ConfigValue = "14",
-                            CreatedAt = new DateTime(2025, 6, 13, 9, 56, 36, 324, DateTimeKind.Utc).AddTicks(2149),
+                            CreatedAt = new DateTime(2025, 6, 13, 9, 26, 26, 603, DateTimeKind.Utc).AddTicks(7882),
                             Description = "Maximum number of days a book can be borrowed"
                         },
                         new
@@ -559,7 +556,7 @@ namespace LMS_Backend.Migrations
                             ConfigId = 2,
                             ConfigKey = "MaxBorrowLimit",
                             ConfigValue = "3",
-                            CreatedAt = new DateTime(2025, 6, 13, 9, 56, 36, 324, DateTimeKind.Utc).AddTicks(2151),
+                            CreatedAt = new DateTime(2025, 6, 13, 9, 26, 26, 603, DateTimeKind.Utc).AddTicks(7884),
                             Description = "Maximum number of books a student can have borrowed at the same time"
                         },
                         new
@@ -567,7 +564,7 @@ namespace LMS_Backend.Migrations
                             ConfigId = 3,
                             ConfigKey = "PenaltyPerDay",
                             ConfigValue = "20",
-                            CreatedAt = new DateTime(2025, 6, 13, 9, 56, 36, 324, DateTimeKind.Utc).AddTicks(2153),
+                            CreatedAt = new DateTime(2025, 6, 13, 9, 26, 26, 603, DateTimeKind.Utc).AddTicks(7886),
                             Description = "Penalty per day for late return"
                         });
                 });

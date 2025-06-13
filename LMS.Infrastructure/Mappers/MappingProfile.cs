@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using LMS_Backend.LMS.Application.DTOs.BookManagement;
+using LMS_Backend.LMS.Application.DTOs.BookTransaction;
 using LMS_Backend.LMS.Application.DTOs.GenreManagement;
 using LMS_Backend.LMS.Application.DTOs.NewFolder;
 using LMS_Backend.LMS.Application.DTOs.User;
@@ -21,6 +22,18 @@ namespace LMS_Backend.LMS.Infrastructure.Mappers
                 .ForMember(dest => dest.id, opt => opt.MapFrom(src => src.BookId))
                 .ForMember(dest => dest.GenreName, opt => opt.MapFrom(src => src.Genre.GenreName)) 
                 .ReverseMap()
+                .ForMember(dest => dest.BookId, opt => opt.Ignore());
+
+            CreateMap<BorrowRequest, BorrowRequestCreateDTO>()
+                .ForMember(dest => dest.BookId, opt => opt.MapFrom(src => src.BookId))
+                .ReverseMap()
+                .ForMember(dest => dest.BookId, opt => opt.Ignore());
+
+            CreateMap<BorrowRequest, BorrowRequestUpdateStatusDTO>()
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
+                .ForMember(dest => dest.BookId, opt => opt.MapFrom(src => src.BookId))
+                .ReverseMap()
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
                 .ForMember(dest => dest.BookId, opt => opt.Ignore());
 
             CreateMap<User, UserDTO>()

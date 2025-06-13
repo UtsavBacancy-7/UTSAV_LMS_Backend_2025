@@ -17,16 +17,18 @@ namespace LMS_Backend.LMS.Domain.Entities
         public int RequestedBy { get; set; }
 
         [Required(ErrorMessage = "RequestedAt date is required")]
-        public DateTime RequestedAt { get; set; }
+        public DateOnly RequestedDate { get; set; }
 
         public int? ApprovedBy { get; set; }
 
-        public DateTime? ApprovedAt { get; set; }
+        public DateOnly? ApprovedDate { get; set; }
 
         [Required(ErrorMessage = "Status is required")]
-        public ReturnRequestStatus Status { get; set; }
+        public RequestStatus Status { get; set; }
 
         public bool? PenaltyFinlized { get; set; }
+
+        public bool IsDeleted { get; set; } = false;
 
         public DateTime? DeletedAt { get; set; }
         public int? DeletedBy { get; set; }
@@ -37,29 +39,29 @@ namespace LMS_Backend.LMS.Domain.Entities
         // Custom date validations
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            var now = DateTime.UtcNow;
+            var today = DateOnly.FromDateTime(DateTime.UtcNow);
 
-            if (RequestedAt > now)
+            if (RequestedDate > today)
             {
                 yield return new ValidationResult(
                     "Requested date cannot be in the future",
-                    new[] { nameof(RequestedAt) });
+                    new[] { nameof(RequestedDate) });
             }
 
-            if (ApprovedAt.HasValue)
+            if (ApprovedDate.HasValue)
             {
-                if (ApprovedAt.Value < RequestedAt)
+                if (ApprovedDate.Value < RequestedDate)
                 {
                     yield return new ValidationResult(
                         "Approved date cannot be before requested date",
-                        new[] { nameof(ApprovedAt) });
+                        new[] { nameof(ApprovedDate) });
                 }
 
-                if (ApprovedAt.Value > now)
+                if (ApprovedDate.Value > today)
                 {
                     yield return new ValidationResult(
                         "Approved date cannot be in the future",
-                        new[] { nameof(ApprovedAt) });
+                        new[] { nameof(ApprovedDate) });
                 }
             }
         }

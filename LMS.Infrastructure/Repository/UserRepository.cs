@@ -117,7 +117,7 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
             existingUser.UpdatedAt = DateTime.UtcNow;
             existingUser.UpdatedBy = updatedBy;
 
-            if (!string.IsNullOrEmpty(userDto.PasswordHash))
+            if (!string.IsNullOrEmpty(userDto.PasswordHash) || userDto.PasswordHash != "")
             {
                 var passwordHasher = new PasswordHasher<UserDataDTO>();
                 var hashedPassword = passwordHasher.HashPassword(userDto, userDto.PasswordHash);

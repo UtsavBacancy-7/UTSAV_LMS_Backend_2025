@@ -15,7 +15,7 @@ namespace LMS_Backend.LMS.Domain.Entities
         public int UserId { get; set; }
 
         [Required(ErrorMessage = "Status is required")]
-        public BorrowRequestStatus Status { get; set; }
+        public RequestStatus Status { get; set; }
 
         [Required(ErrorMessage = "Request date is required")]
         public DateOnly RequestDate { get; set; }
@@ -28,7 +28,7 @@ namespace LMS_Backend.LMS.Domain.Entities
 
         [Range(0, double.MaxValue, ErrorMessage = "Penalty cannot be negative")]
         public decimal? Penalty { get; set; }
-
+        public bool IsDeleted { get; set; } = false;
         public DateTime? DeletedAt { get; set; }
         public int? DeletedBy { get; set; }
 

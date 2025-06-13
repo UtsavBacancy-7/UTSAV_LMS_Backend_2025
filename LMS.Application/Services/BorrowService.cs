@@ -1,5 +1,7 @@
-﻿using LMS_Backend.LMS.Application.Interfaces.BookTransactions;
+﻿using LMS_Backend.LMS.Application.DTOs.BookTransaction;
+using LMS_Backend.LMS.Application.Interfaces.BookTransactions;
 using LMS_Backend.LMS.Domain.Entities;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace LMS_Backend.LMS.Application.Services
 {
@@ -12,7 +14,7 @@ namespace LMS_Backend.LMS.Application.Services
             _borrowRequestRepository = borrowRequestRepository;
         }
 
-        public async Task<BorrowRequest> AddBorrowRequestAsync(BorrowRequest request, int createdBy)
+        public async Task<bool> AddBorrowRequestAsync(BorrowRequestCreateDTO request, int createdBy)
         {
             return await _borrowRequestRepository.AddBorrowRequestQuery(request, createdBy);
         }
@@ -22,19 +24,19 @@ namespace LMS_Backend.LMS.Application.Services
             return await _borrowRequestRepository.DeleteBorrowRequestQuery(id, deletedBy);
         }
 
-        public async Task<IEnumerable<BorrowRequest>> GetAllBorrowRequestsAsync()
+        public async Task<IEnumerable<BorrowResponseDTO>> GetAllBorrowRequestsAsync()
         {
             return await _borrowRequestRepository.GetAllBorrowRequestsQuery();
         }
 
-        public async Task<BorrowRequest?> GetBorrowRequestByIdAsync(int id)
+        public async Task<BorrowResponseDTO?> GetBorrowRequestByIdAsync(int id)
         {
             return await _borrowRequestRepository.GetBorrowRequestByIdQuery(id);
         }
 
-        public async Task<BorrowRequest> UpdateBorrowRequestAsync(BorrowRequest request, int updatedBy)
+        public async Task<bool> PatchBorrowRequestAsync(int id, JsonPatchDocument<BorrowRequestUpdateStatusDTO> patchDoc, int updatedBy)
         {
-            return await _borrowRequestRepository.UpdateBorrowRequestQuery(request, updatedBy);
+            return await _borrowRequestRepository.PatchBorrowRequestQuery(id, patchDoc, updatedBy);
         }
     }
 }

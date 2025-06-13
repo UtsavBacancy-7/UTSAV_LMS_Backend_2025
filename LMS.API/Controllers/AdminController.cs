@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using Asp.Versioning;
+using LMS_Backend.LMS.Application.Interfaces;
 using LMS_Backend.LMS.Application.Interfaces.GenreManagement;
 using LMS_Backend.LMS.Application.Interfaces.UserManagement;
 using Microsoft.AspNetCore.Authorization;
@@ -10,15 +11,17 @@ namespace LMS_Backend.LMS.API.Controllers
 {
     [ApiController]
     [ApiVersion(1)]
-    [Route("api/v{v:apiVersion}/genre")]
+    [Route("api/v{v:apiVersion}/dashboard")]
     [Produces("application/json")]
-    [Authorize(Roles = "Administrator")]
+    //[Authorize(Roles = "Administrator")]
     public class AdminController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IDashboardStatService _dashboardStatService;
 
-        public AdminController(IUserService userService)
+        public AdminController(IUserService userService, IDashboardStatService dashboardStatService)
         {
+            _dashboardStatService = dashboardStatService;
             _userService = userService;
         }
 
@@ -48,6 +51,20 @@ namespace LMS_Backend.LMS.API.Controllers
                 }
 
                 return Ok(new { success = true, message = "User profile fetched successfully", data = profileData });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { success = false, message = "An error occurred while fetching user profile", error = ex.Message });
+            }
+        }
+
+        [HttpGet("stats")]
+        public async Task<IActionResult> DashboardStats()
+        {
+            try
+            {
+                var statsData =  await _dashboardStatService.GetAllStatsAsync();
+                return Ok(new { success = true, message = "Data fetched successfully", data = statsData });
             }
             catch (Exception ex)
             {

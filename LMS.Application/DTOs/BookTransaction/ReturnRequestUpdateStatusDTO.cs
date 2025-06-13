@@ -9,7 +9,7 @@ namespace LMS_Backend.LMS.Application.DTOs.BookTransaction
         public int ReturnRequestId { get; set; }
 
         [Required(ErrorMessage = "Status is required.")]
-        public ReturnRequestStatus Status { get; set; }
+        public RequestStatus Status { get; set; }
 
         [Required(ErrorMessage = "Approver ID is required.")]
         public int ApprovedBy { get; set; }
