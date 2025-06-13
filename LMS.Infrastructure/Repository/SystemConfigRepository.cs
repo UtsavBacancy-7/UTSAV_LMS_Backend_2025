@@ -75,7 +75,7 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
         public async Task UpdateSystemConfigQuery(SystemConfig updatedConfig, int updatedBy)
         {
             var existingConfig = await _context.SystemConfigs
-                .FirstOrDefaultAsync(c => c.ConfigId == updatedConfig.ConfigId);
+                .FirstOrDefaultAsync(c => c.ConfigKey == updatedConfig.ConfigKey);
 
             if (existingConfig is null)
                 throw new KeyNotFoundException($"System config with ID {updatedConfig.ConfigId} not found.");
