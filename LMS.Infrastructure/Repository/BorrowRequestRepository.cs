@@ -9,6 +9,7 @@ using LMS_Backend.LMS.Domain.Enums;
 using LMS_Backend.LMS.Infrastructure.Context;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Extensions;
 
 namespace LMS_Backend.LMS.Infrastructure.Repository
 {
@@ -75,15 +76,15 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
 
         public async Task<IEnumerable<BorrowResponseDTO>> GetAllBorrowRequestsQuery()
         {
-            var requestList = await _context.BorrowRequests.Include(s => s.User).Include(s => s.Book).Select(s => new BorrowResponseDTO
+            var requestList = await _context.BorrowRequests.Include(s => s.User).Include(s => s.Book).Where(s => !s.IsDeleted).Select(s => new BorrowResponseDTO
             {
                 BorrowRequestId = s.BorrowRequestId,
                 FirstName = s.User.FirstName,
+                Title = s.Book.Title,
                 LastName = s.User.LastName,
                 Email = s.User.Email,
                 Status = s.Status,
                 RequestDate = s.RequestDate,
-                ApprovedBy = s.ApprovedBy,
                 ApprovedDate = s.ApprovedDate,
                 DueDate = s.DueDate,
                 ReturnDate = s.ReturnDate
@@ -99,10 +100,10 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
                 BorrowRequestId = s.BorrowRequestId,
                 FirstName = s.User.FirstName,
                 LastName = s.User.LastName,
+                Title = s.Book.Title,
                 Email = s.User.Email,
                 Status = s.Status,
                 RequestDate = s.RequestDate,
-                ApprovedBy = s.ApprovedBy,
                 ApprovedDate = s.ApprovedDate,
                 DueDate = s.DueDate,
                 ReturnDate = s.ReturnDate
