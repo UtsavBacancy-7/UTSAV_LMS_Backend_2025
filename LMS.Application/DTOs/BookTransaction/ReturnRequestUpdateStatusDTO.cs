@@ -10,8 +10,5 @@ namespace LMS_Backend.LMS.Application.DTOs.BookTransaction
 
         [Required(ErrorMessage = "Status is required.")]
         public RequestStatus Status { get; set; }
-
-        [Required(ErrorMessage = "Approver ID is required.")]
-        public int ApprovedBy { get; set; }
     }
 }

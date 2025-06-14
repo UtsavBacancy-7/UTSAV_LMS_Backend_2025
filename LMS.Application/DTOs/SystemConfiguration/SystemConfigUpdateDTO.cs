@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace LMS_Backend.LMS.Application.DTOs.BookTransaction
+namespace LMS_Backend.LMS.Application.DTOs.SystemConfiguration
 {
     public class SystemConfigUpdateDTO
     {

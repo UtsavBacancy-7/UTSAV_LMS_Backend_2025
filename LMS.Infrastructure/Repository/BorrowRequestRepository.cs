@@ -26,7 +26,7 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
         public async Task<bool> AddBorrowRequestQuery(BorrowRequestCreateDTO request, int createdBy)
         {
             var requestList = _context.BorrowRequests.Where
-                                        (s => s.UserId == request.UserId && 
+                                        (s => s.UserId == createdBy && 
                                             (s.Status == Domain.Enums.RequestStatus.Approved || 
                                              s.Status == Domain.Enums.RequestStatus.Pending)
                                         ).ToList();
@@ -35,9 +35,12 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
 
             int countLimit = await _systemConfigService.GetMaxBorrowLimitAsync();
 
-            if(requestList.Count() >= countLimit)
+            if (requestList.Count() >= countLimit)
             {
                 throw new ApplicationException("You have reach the maximum request limit.");
+            } else if (requestedBook == null)
+            {
+                throw new DataNotFoundException<string>($"Not book found with {request.BookId} id.");
             }else if (requestedBook.AvailableCopies <= 0)
             {
                 throw new ApplicationException("Book is not available for Borrow.");
@@ -141,7 +144,6 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
                         existingRequest.ApprovedBy = updatedBy;
                         existingRequest.ApprovedDate = DateOnly.FromDateTime(DateTime.UtcNow);
 
-                        // Fix: Use BookId from the request, not the id parameter
                         var bookData = await _context.Books.FindAsync(existingRequest.BookId);
                         if (bookData != null)
                         {
@@ -158,15 +160,10 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
                         if (existingRequest.DueDate.HasValue ||
                             existingRequest.ReturnDate > existingRequest.DueDate)
                         {  
-                            decimal rate = await _systemConfigService.GetPenaltyPerDayAsync();
-                            var daysLate = (existingRequest.ReturnDate.Value.ToDateTime(TimeOnly.MinValue) -
-                                          existingRequest.DueDate.Value.ToDateTime(TimeOnly.MinValue)).Days;
-
                             if (existingRequest.Book != null)
                             {
                                 existingRequest.Book.AvailableCopies++;
                             }
-                            existingRequest.Penalty = daysLate * rate;
                         }
                         break;
 

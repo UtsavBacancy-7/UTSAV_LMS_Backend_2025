@@ -17,11 +17,11 @@ namespace LMS_Backend.LMS.API.Controllers
     [Route("api/v{v:apiVersion}/transactions")]
     [Produces("application/json")]
     [Authorize(Roles = "Administrator, Librarian, Student")]
-    public class TransactionController : ControllerBase
+    public class BorrowRequestController : ControllerBase
     {
         private readonly IBorrowService _borrowService;
 
-        public TransactionController(IBorrowService borrowService)
+        public BorrowRequestController(IBorrowService borrowService)
         {
             _borrowService = borrowService;
         }

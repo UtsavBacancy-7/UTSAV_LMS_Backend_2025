@@ -25,9 +25,6 @@ namespace LMS_Backend.LMS.Domain.Entities
 
         [Required(ErrorMessage = "Status is required")]
         public RequestStatus Status { get; set; }
-
-        public bool? PenaltyFinlized { get; set; }
-
         public bool IsDeleted { get; set; } = false;
 
         public DateTime? DeletedAt { get; set; }

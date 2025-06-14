@@ -1,16 +1,16 @@
-﻿using LMS_Backend.LMS.Domain.Entities;
+﻿using LMS_Backend.LMS.Application.DTOs.BookTransaction;
+using LMS_Backend.LMS.Domain.Entities;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace LMS_Backend.LMS.Application.Interfaces.BookTransactions
 {
     public interface IReturnRequestRepository
     {
-        Task<ReturnRequest?> GetReturnRequestByIdQuery(int id);
-        Task<IEnumerable<ReturnRequest>> GetAllReturnRequestsQuery();
-        Task<IEnumerable<ReturnRequest>> GetReturnRequestsByUserIdQuery(int userId);
-        Task<IEnumerable<ReturnRequest>> GetPendingReturnRequestsQuery();
-        Task<ReturnRequest?> GetReturnRequestWithBorrowQuery(int id);
-
-        Task AddReturnRequestQuery(ReturnRequest request);
-        Task UpdateReturnRequestQuery(ReturnRequest request);
+        Task<ReturnResponseDTO?> GetReturnRequestByIdQuery(int id);
+        Task<IEnumerable<ReturnResponseDTO>> GetAllReturnRequestsQuery();
+        Task<IEnumerable<ReturnResponseDTO>> GetReturnRequestsByUserIdQuery(int userId);
+        Task<bool> AddReturnRequestQuery(ReturnRequestCreateDTO request, int createdBy);
+        Task<bool> PatchReturnRequestQuery(int id, JsonPatchDocument<ReturnRequestUpdateStatusDTO> patchDoc, int updatedBy);
+        Task<bool> DeleteReturnRequestQuery(int id, int deletedBy);
     }
 }

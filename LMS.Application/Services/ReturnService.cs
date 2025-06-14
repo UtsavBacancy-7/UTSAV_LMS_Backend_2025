@@ -1,33 +1,47 @@
-﻿using LMS_Backend.LMS.Application.Interfaces.BookTransactions;
+﻿using LMS_Backend.LMS.Application.DTOs.BookTransaction;
+using LMS_Backend.LMS.Application.Interfaces.BookTransactions;
 using LMS_Backend.LMS.Domain.Entities;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace LMS_Backend.LMS.Application.Services
 {
     public class ReturnService : IReturnService
     {
-        public Task<ReturnRequest> ApproveReturnRequestAsync(int returnRequestId, int approverId)
+        private readonly IReturnRequestRepository _returnRequestRepository;
+
+        public ReturnService(IReturnRequestRepository returnRequestRepository)
         {
-            throw new NotImplementedException();
+            _returnRequestRepository = returnRequestRepository;
         }
 
-        public Task<ReturnRequest> CreateReturnRequestAsync(int borrowRequestId, int requestedBy)
+        public async Task<bool> AddReturnRequestAsync(ReturnRequestCreateDTO request, int createdBy)
         {
-            throw new NotImplementedException();
+            return await _returnRequestRepository.AddReturnRequestQuery(request, createdBy);
         }
 
-        public Task<IEnumerable<ReturnRequest>> GetAllReturnRequestsAsync()
+        public async Task<bool> DeleteReturnRequestAsync(int id, int deletedBy)
         {
-            throw new NotImplementedException();
+            return await _returnRequestRepository.DeleteReturnRequestQuery(id, deletedBy);
         }
 
-        public Task<IEnumerable<ReturnRequest>> GetReturnRequestsForUserAsync(int userId)
+        public async Task<IEnumerable<ReturnResponseDTO>> GetAllReturnRequestsAsync()
         {
-            throw new NotImplementedException();
+            return await _returnRequestRepository.GetAllReturnRequestsQuery();
         }
 
-        public Task<ReturnRequest> RejectReturnRequestAsync(int returnRequestId, int approverId)
+        public async Task<ReturnResponseDTO?> GetReturnRequestByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _returnRequestRepository.GetReturnRequestByIdQuery(id);
+        }
+
+        public async Task<IEnumerable<ReturnResponseDTO>> GetReturnRequestsByUserIdAsync(int userId)
+        {
+            return await _returnRequestRepository.GetReturnRequestsByUserIdQuery(userId);
+        }
+
+        public async Task<bool> PatchReturnRequestAsync(int id, JsonPatchDocument<ReturnRequestUpdateStatusDTO> patchDoc, int updatedBy)
+        {
+            return await _returnRequestRepository.PatchReturnRequestQuery(id, patchDoc, updatedBy);
         }
     }
 }

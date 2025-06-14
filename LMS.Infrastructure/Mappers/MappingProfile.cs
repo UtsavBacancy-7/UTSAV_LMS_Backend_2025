@@ -51,6 +51,14 @@ namespace LMS_Backend.LMS.Infrastructure.Mappers
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.UserId))
                 .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role != null ? src.Role.RoleName : string.Empty));
 
+            CreateMap<ReturnRequestCreateDTO, ReturnRequest>()
+                .ForMember(dest => dest.RequestedBy, opt => opt.MapFrom(src => src.RequestedBy))
+                .ForMember(dest => dest.BorrowRequestId, opt => opt.MapFrom(src => src.BorrowRequestId));
+
+            CreateMap<ReturnRequestCreateDTO, BookReview>()
+                .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.rating))
+                .ForMember(dest => dest.Comment, opt => opt.MapFrom(src => src.comments));
+
             CreateMap<Genre, GenreDTO>();
             CreateMap<CreateGenreDTO, Genre>();
             CreateMap<UpdateGenreDTO, Genre>();

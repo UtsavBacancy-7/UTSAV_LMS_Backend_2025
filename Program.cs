@@ -17,7 +17,7 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
     options.SerializerSettings.Converters.Add(new StringEnumConverter());
     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 });
-
+  
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
