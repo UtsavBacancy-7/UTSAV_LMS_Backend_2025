@@ -13,7 +13,6 @@ namespace LMS_Backend.LMS.API.Controllers
     [ApiVersion(1)]
     [Route("api/v{v:apiVersion}/dashboard")]
     [Produces("application/json")]
-    [Authorize(Roles = "Administrator")]
     public class AdminController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -59,6 +58,7 @@ namespace LMS_Backend.LMS.API.Controllers
         }
 
         [HttpGet("stats")]
+        [Authorize(Roles = "Administrator, Librarian")]
         public async Task<IActionResult> DashboardStats()
         {
             try

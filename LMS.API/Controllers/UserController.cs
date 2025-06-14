@@ -12,7 +12,6 @@ namespace LMS_Backend.LMS.API.Controllers
     [ApiVersion(1)]
     [Route("api/v{v:apiVersion}/users")]
     [Produces("application/json")]
-    [Authorize(Roles = "Administrator")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -29,6 +28,7 @@ namespace LMS_Backend.LMS.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> AddUser([FromBody] UserDataDTO userDto)
         {
             if (!ModelState.IsValid)
@@ -47,6 +47,7 @@ namespace LMS_Backend.LMS.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> GetAllUsers()
         {
             try
@@ -62,6 +63,7 @@ namespace LMS_Backend.LMS.API.Controllers
         }
 
         [HttpGet("get-by-id")]
+        [Authorize(Roles = "Administrator, Librarian, Student")]
         public async Task<IActionResult> GetUserById([FromQuery]int id)
         {
             try
@@ -79,6 +81,7 @@ namespace LMS_Backend.LMS.API.Controllers
         }
 
         [HttpGet("get-by-role")]
+        [Authorize(Roles = "Administrator, Librarian")]
         public async Task<IActionResult> GetUsersByRole([FromQuery] string role)
         {
             try
@@ -93,6 +96,7 @@ namespace LMS_Backend.LMS.API.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Administrator, Librarian, Student")]
         public async Task<IActionResult> UpdateUser([FromQuery]int id, [FromBody] UserDataDTO userDto)
         {
             if (!ModelState.IsValid)
@@ -116,6 +120,7 @@ namespace LMS_Backend.LMS.API.Controllers
         }
 
         [HttpPatch]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> PatchUser( [FromQuery] int id, [FromBody] JsonPatchDocument<UserDataDTO> patchDoc)
         {
             if (patchDoc == null)
@@ -144,6 +149,7 @@ namespace LMS_Backend.LMS.API.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteUser([FromQuery]int id)
         {
             try

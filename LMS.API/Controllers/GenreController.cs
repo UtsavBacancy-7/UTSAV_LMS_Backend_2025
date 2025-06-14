@@ -12,7 +12,6 @@ namespace LMS_Backend.LMS.API.Controllers
     [ApiVersion(1)]
     [Route("api/v{v:apiVersion}/genre")]
     [Produces("application/json")]
-    [Authorize(Roles = "Administrator")]
     public class GenreController : ControllerBase
     {
         private readonly IGenreService _genreService;
@@ -29,6 +28,8 @@ namespace LMS_Backend.LMS.API.Controllers
         }
 
         [HttpGet("all")]
+        [Authorize(Roles = "Administrator, Librarian")]
+
         public async Task<IActionResult> GetAllGenres()
         {
             try
@@ -43,6 +44,7 @@ namespace LMS_Backend.LMS.API.Controllers
         }
 
         [HttpGet("get-by-id")]
+        [Authorize(Roles = "Administrator, Librarian")]
         public async Task<IActionResult> GetGenreById([FromQuery]int id)
         {
             try
@@ -60,6 +62,7 @@ namespace LMS_Backend.LMS.API.Controllers
         }
 
         [HttpPost("create")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> CreateGenre([FromBody] CreateGenreDTO createGenreDto)
         {
             if (!ModelState.IsValid)
@@ -78,6 +81,7 @@ namespace LMS_Backend.LMS.API.Controllers
         }
 
         [HttpPut("update")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> UpdateGenre([FromBody] UpdateGenreDTO updateGenreDto)
         {
             if (!ModelState.IsValid)
@@ -96,6 +100,7 @@ namespace LMS_Backend.LMS.API.Controllers
         }
 
         [HttpDelete("delete")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteGenre([FromQuery]int id)
         {
             try
