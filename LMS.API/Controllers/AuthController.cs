@@ -28,15 +28,15 @@ namespace LMS_Backend.LMS.API.Controllers
             try
             {
                 var message = await _authRepository.RegisterAsync(register);
-                return Ok(new { Message = message });
+                return Ok(new { success = true, Message = message });
             }
             catch (DataNotFoundException<string> ex)
             {
-                return NotFound(new { Message = ex.Message });
+                return NotFound(new { success = false, Message = ex.Message });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { Message = $"An unexpected error occurred. : {ex.Message}" });
+                return StatusCode(500, new { success = false, Message = $"An unexpected error occurred. : {ex.Message}" });
             }
         }
 
@@ -49,15 +49,15 @@ namespace LMS_Backend.LMS.API.Controllers
             try
             {
                 var loginResponse = await _authRepository.LoginAsync(userLoginDTO);
-                return Ok(loginResponse);
+                return Ok(new { success = true, message = "Login Successfully", data = loginResponse });
             }
             catch (DataNotFoundException<string> ex)
             {
-                return NotFound(new { Message = ex.Message });
+                return NotFound(new { success = false, Message = ex.Message });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { Message = $"An unexpected error occurred. : {ex.Message}" });
+                return StatusCode(500, new { success = false, Message = $"An unexpected error occurred. : {ex.Message}" });
             }
         }
 
@@ -68,7 +68,7 @@ namespace LMS_Backend.LMS.API.Controllers
                 return BadRequest(ModelState);
 
             var message = await _authRepository.SendOtpToEmail(dto);
-            return Ok(new { message = "OTP sent to email." });
+            return Ok(new { success = true, message = "OTP sent to email." });
         }
 
         [HttpPost("ResetPassword")]
@@ -80,15 +80,15 @@ namespace LMS_Backend.LMS.API.Controllers
             try
             {
                 var result = await _authRepository.ResetPassword(resetPwdDTO);
-                return Ok(new { Message = result });
+                return Ok(new { success = true, Message = result });
             }
             catch (DataNotFoundException<string> ex)
             {
-                return NotFound(new { Message = ex.Message });
+                return NotFound(new { success = false, Message = ex.Message });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { Message = $"An unexpected error occurred. : {ex.Message}" });
+                return StatusCode(500, new { success = false, Message = $"An unexpected error occurred. : {ex.Message}" });
             }
         }
     }

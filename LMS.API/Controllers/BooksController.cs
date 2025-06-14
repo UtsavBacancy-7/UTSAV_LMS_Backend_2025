@@ -13,7 +13,6 @@ namespace LMS_Backend.LMS.API.Controllers
     [ApiVersion(1)]
     [Route("api/v{v:apiVersion}/books")]
     [Produces("application/json")]
-    [Authorize(Roles = "Administrator")]
     public class BooksController : ControllerBase
     {
         private readonly IBookService _bookService;
@@ -30,6 +29,7 @@ namespace LMS_Backend.LMS.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator, Librarian")]
         public async Task<IActionResult> AddBook([FromBody] BookDTO bookDto)
         {
             if (!ModelState.IsValid)
@@ -52,6 +52,7 @@ namespace LMS_Backend.LMS.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrator, Librarian, Student")]
         public async Task<IActionResult> GetAllBooks()
         {
             try
@@ -66,6 +67,7 @@ namespace LMS_Backend.LMS.API.Controllers
         }
 
         [HttpGet("get-by-id")]
+        [Authorize(Roles = "Administrator, Librarian, Student")]
         public async Task<IActionResult> GetBookById([FromQuery] int id)
         {
             try
@@ -83,6 +85,7 @@ namespace LMS_Backend.LMS.API.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteBook([FromQuery]int id)
         {
             try
@@ -102,6 +105,7 @@ namespace LMS_Backend.LMS.API.Controllers
         }
 
         [HttpPatch]
+        [Authorize(Roles = "Administrator, Librarian")]
         public async Task<IActionResult> PatchBook([FromQuery]int id, [FromBody] JsonPatchDocument<BookDTO> patchDoc)
         {
             try
@@ -124,6 +128,7 @@ namespace LMS_Backend.LMS.API.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Administrator, Librarian")]
         public async Task<IActionResult> UpdateBook([FromQuery] int id, [FromBody] BookDTO bookDTO)
         {
             if (!ModelState.IsValid)

@@ -5,11 +5,11 @@ namespace LMS_Backend.LMS.Application.Interfaces.SystemConfiguration
 {
     public interface ISystemConfigRepository
     {
-        Task<string?> GetConfigValueByKeyQuery(string key);
-        Task<decimal> GetPenaltyPerDayQuery();
-        Task<int> GetMaxBorrowPeriodQuery();
-        Task<int> GetMaxBorrowLimitQuery();
-        Task<IEnumerable<SystemConfig>> GetAllConfigsQuery();
-        Task UpdateSystemConfigQuery(SystemConfig config, int updatedBy);
+        public Task<string?> GetConfigValueByKeyQuery(string key);
+        public Task<decimal> GetPenaltyPerDayQuery();
+        public Task<int> GetMaxBorrowPeriodQuery();
+        public Task<int> GetMaxBorrowLimitQuery();
+        public Task<IEnumerable<SystemConfig>> GetAllConfigsQuery();
+        public Task UpdateSystemConfigQuery(SystemConfig config, int updatedBy);
     }
 }

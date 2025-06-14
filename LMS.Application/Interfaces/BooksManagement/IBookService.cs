@@ -5,12 +5,12 @@ namespace LMS_Backend.LMS.Application.Interfaces.BooksManagement
 {
     public interface IBookService
     {
-        Task<GetBookDTO> GetBookByIdAsync(int id);
-        Task<IEnumerable<GetBookDTO>> GetAllBooksAsync();
-        Task<bool> AddBookAsync(BookDTO book, int createdBy);
-        Task<bool> PatchBookAsync(int id, JsonPatchDocument<BookDTO> patchDoc, int updatedBy);
-        Task<bool> UpdateBookAsync(int id, BookDTO bookDto, int updatedBy);
-        Task<bool> DeleteBookAsync(int id, int deletedBy);
+        public Task<GetBookDTO> GetBookByIdAsync(int id);
+        public Task<IEnumerable<GetBookDTO>> GetAllBooksAsync();
+        public Task<bool> AddBookAsync(BookDTO book, int createdBy);
+        public Task<bool> PatchBookAsync(int id, JsonPatchDocument<BookDTO> patchDoc, int updatedBy);
+        public Task<bool> UpdateBookAsync(int id, BookDTO bookDto, int updatedBy);
+        public Task<bool> DeleteBookAsync(int id, int deletedBy);
 
     }
 }

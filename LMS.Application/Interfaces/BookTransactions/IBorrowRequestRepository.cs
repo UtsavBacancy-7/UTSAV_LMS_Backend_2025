@@ -7,10 +7,10 @@ namespace LMS_Backend.LMS.Application.Interfaces.BookTransactions
 {
     public interface IBorrowRequestRepository
     {
-        Task<IEnumerable<BorrowResponseDTO>> GetAllBorrowRequestsQuery();
-        Task<BorrowResponseDTO?> GetBorrowRequestByIdQuery(int id);
-        Task<bool> AddBorrowRequestQuery(BorrowRequestCreateDTO request, int createdBy);
-        Task<bool> PatchBorrowRequestQuery(int id, JsonPatchDocument<BorrowRequestUpdateStatusDTO> patchDoc,int updatedBy);
-        Task<bool> DeleteBorrowRequestQuery(int id, int deletedBy);
+        public Task<IEnumerable<BorrowResponseDTO>> GetAllBorrowRequestsQuery();
+        public Task<BorrowResponseDTO?> GetBorrowRequestByIdQuery(int id);
+        public Task<bool> AddBorrowRequestQuery(BorrowRequestCreateDTO request, int createdBy);
+        public Task<bool> PatchBorrowRequestQuery(int id, JsonPatchDocument<BorrowRequestUpdateStatusDTO> patchDoc,int updatedBy);
+        public Task<bool> DeleteBorrowRequestQuery(int id, int deletedBy);
     }
 }

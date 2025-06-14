@@ -7,10 +7,10 @@ namespace LMS_Backend.LMS.Application.Interfaces.BookTransactions
 {
     public interface IBorrowService
     {
-        Task<IEnumerable<BorrowResponseDTO>> GetAllBorrowRequestsAsync();
-        Task<BorrowResponseDTO?> GetBorrowRequestByIdAsync(int id);
-        Task<bool> AddBorrowRequestAsync(BorrowRequestCreateDTO request, int createdBy);
-        Task<bool> PatchBorrowRequestAsync(int id, JsonPatchDocument<BorrowRequestUpdateStatusDTO> patchDoc, int updatedBy);
-        Task<bool> DeleteBorrowRequestAsync(int id, int deletedBy);
+        public Task<IEnumerable<BorrowResponseDTO>> GetAllBorrowRequestsAsync();
+        public Task<BorrowResponseDTO?> GetBorrowRequestByIdAsync(int id);
+        public Task<bool> AddBorrowRequestAsync(BorrowRequestCreateDTO request, int createdBy);
+        public Task<bool> PatchBorrowRequestAsync(int id, JsonPatchDocument<BorrowRequestUpdateStatusDTO> patchDoc,int updatedBy);
+        public Task<bool> DeleteBorrowRequestAsync(int id, int deletedBy);
     }
 }

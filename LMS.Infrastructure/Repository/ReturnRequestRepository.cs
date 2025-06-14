@@ -67,7 +67,6 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
             }
             catch (Exception ex)
             {
-                // Log error here
                 throw new ApplicationException("Failed to create return request and book review.", ex);
             }
         }

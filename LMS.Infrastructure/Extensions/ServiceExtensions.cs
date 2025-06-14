@@ -8,7 +8,6 @@ using LMS_Backend.LMS.Application.Interfaces.UserManagement;
 using LMS_Backend.LMS.Application.Services;
 using LMS_Backend.LMS.Infrastructure.Helpers;
 using LMS_Backend.LMS.Infrastructure.Repository;
-using Microsoft.Extensions.Configuration.UserSecrets;
 
 namespace LMS_Backend.LMS.Infrastructure.Extensions
 {

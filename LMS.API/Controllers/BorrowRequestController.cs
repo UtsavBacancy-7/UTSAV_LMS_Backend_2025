@@ -16,7 +16,6 @@ namespace LMS_Backend.LMS.API.Controllers
     [ApiVersion(1)]
     [Route("api/v{v:apiVersion}/transactions")]
     [Produces("application/json")]
-    [Authorize(Roles = "Administrator, Librarian, Student")]
     public class BorrowRequestController : ControllerBase
     {
         private readonly IBorrowService _borrowService;
@@ -33,6 +32,7 @@ namespace LMS_Backend.LMS.API.Controllers
         }
 
         [HttpGet("borrow-requests")]
+        [Authorize(Roles = "Administrator, Librarian")]
         public async Task<IActionResult> GetAllBorrowRequests()
         {
             try
@@ -47,6 +47,7 @@ namespace LMS_Backend.LMS.API.Controllers
         }
 
         [HttpGet("borrow-requests-by-id")]
+        [Authorize(Roles = "Administrator, Librarian")]
         public async Task<IActionResult> GetBorrowRequestById([FromQuery]int id)
         {
             try
@@ -61,6 +62,7 @@ namespace LMS_Backend.LMS.API.Controllers
         }
 
         [HttpPost("borrow-requests")]
+        [Authorize(Roles = "Student")]
         public async Task<IActionResult> CreateBorrowRequest([FromBody] BorrowRequestCreateDTO request)
         {
             try
@@ -77,6 +79,7 @@ namespace LMS_Backend.LMS.API.Controllers
         }
 
         [HttpPatch("borrow-requests")]
+        [Authorize(Roles = "Administrator, Librarian")]
         public async Task<IActionResult> UpdateBorrowRequest([FromQuery] int id, [FromBody] JsonPatchDocument<BorrowRequestUpdateStatusDTO> patchDoc)
         {
             try
@@ -98,6 +101,7 @@ namespace LMS_Backend.LMS.API.Controllers
         }
 
         [HttpDelete("borrow-requests")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteBorrowRequest([FromQuery]int id)
         {
             try

@@ -2,8 +2,8 @@
 {
     public interface IEmailService
     {
-        Task SendEmailAsync(string toEmail, string subject, string body);
-        Task SendUserRegistrationEmailAsync(string toEmail, string password);
-        Task SendStudentRegistrationEmailAsync(string toEmail, string studentName);
+        public Task SendEmailAsync(string toEmail, string subject, string body);
+        public Task SendUserRegistrationEmailAsync(string toEmail, string password);
+        public Task SendStudentRegistrationEmailAsync(string toEmail, string studentName);
     }
 }

@@ -4,11 +4,11 @@ namespace LMS_Backend.LMS.Application.Interfaces.SystemConfiguration
 {
     public interface ISystemConfigService
     {
-        Task<string?> GetConfigValueByKeyAsync(string key);
-        Task<decimal> GetPenaltyPerDayAsync();
-        Task<int> GetMaxBorrowPeriodAsync();
-        Task<int> GetMaxBorrowLimitAsync();
-        Task<IEnumerable<SystemConfig>> GetAllConfigsAsync();
-        Task UpdateSystemConfigAsync(SystemConfig config, int updatedBy);
+        public Task<string?> GetConfigValueByKeyAsync(string key);
+        public Task<decimal> GetPenaltyPerDayAsync();
+        public Task<int> GetMaxBorrowPeriodAsync();
+        public Task<int> GetMaxBorrowLimitAsync();
+        public Task<IEnumerable<SystemConfig>> GetAllConfigsAsync();
+        public Task UpdateSystemConfigAsync(SystemConfig config, int updatedBy);
     }
 }

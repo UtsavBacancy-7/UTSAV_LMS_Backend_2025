@@ -6,11 +6,11 @@ namespace LMS_Backend.LMS.Application.Interfaces.BookTransactions
 {
     public interface IReturnRequestRepository
     {
-        Task<ReturnResponseDTO?> GetReturnRequestByIdQuery(int id);
-        Task<IEnumerable<ReturnResponseDTO>> GetAllReturnRequestsQuery();
-        Task<IEnumerable<ReturnResponseDTO>> GetReturnRequestsByUserIdQuery(int userId);
-        Task<bool> AddReturnRequestQuery(ReturnRequestCreateDTO request, int createdBy);
-        Task<bool> PatchReturnRequestQuery(int id, JsonPatchDocument<ReturnRequestUpdateStatusDTO> patchDoc, int updatedBy);
-        Task<bool> DeleteReturnRequestQuery(int id, int deletedBy);
+        public Task<ReturnResponseDTO?> GetReturnRequestByIdQuery(int id);
+        public Task<IEnumerable<ReturnResponseDTO>> GetAllReturnRequestsQuery();
+        public Task<IEnumerable<ReturnResponseDTO>> GetReturnRequestsByUserIdQuery(int userId);
+        public Task<bool> AddReturnRequestQuery(ReturnRequestCreateDTO request, int createdBy);
+        public Task<bool> PatchReturnRequestQuery(int id, JsonPatchDocument<ReturnRequestUpdateStatusDTO> patchDoc, int updatedBy);
+        public Task<bool> DeleteReturnRequestQuery(int id, int deletedBy);
     }
 }

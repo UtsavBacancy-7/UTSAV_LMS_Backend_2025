@@ -14,7 +14,6 @@ namespace LMS_Backend.LMS.API.Controllers
     [ApiVersion(1)]
     [Route("api/v{v:apiVersion}/transactions")]
     [Produces("application/json")]
-    [Authorize(Roles = "Administrator")]
     public class ReturnRequestController : ControllerBase
     {
         private readonly IReturnService _returnService;
@@ -32,6 +31,7 @@ namespace LMS_Backend.LMS.API.Controllers
         }
 
         [HttpGet("return-requests")]
+        [Authorize(Roles = "Administrator, Librarian")]
         public async Task<IActionResult> GetAllReturnRequests()
         {
             try
@@ -46,6 +46,7 @@ namespace LMS_Backend.LMS.API.Controllers
         }
 
         [HttpGet("return-requests-by-id")]
+        [Authorize(Roles = "Administrator, Librarian")]
         public async Task<IActionResult> GetReturnRequestById([FromQuery]int id)
         {
             try
@@ -66,6 +67,7 @@ namespace LMS_Backend.LMS.API.Controllers
         }
 
         [HttpGet("users/return-requests")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> GetReturnRequestsByUserId([FromQuery]int userId)
         {
             try
@@ -86,6 +88,7 @@ namespace LMS_Backend.LMS.API.Controllers
         }
 
         [HttpPost("return-requests")]
+        [Authorize(Roles = "Student")]
         public async Task<IActionResult> CreateReturnRequest([FromBody] ReturnRequestCreateDTO request)
         {
             if (!ModelState.IsValid)
@@ -116,6 +119,7 @@ namespace LMS_Backend.LMS.API.Controllers
         }
 
         [HttpPatch("return-requests")]
+        [Authorize(Roles = "Administrator, Librarian")]
         public async Task<IActionResult> UpdateReturnRequestStatus(
             [FromQuery]int id,
             [FromBody] JsonPatchDocument<ReturnRequestUpdateStatusDTO> patchDoc)
@@ -144,6 +148,7 @@ namespace LMS_Backend.LMS.API.Controllers
         }
 
         [HttpDelete("return-requests")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteReturnRequest([FromQuery]int id)
         {
             try

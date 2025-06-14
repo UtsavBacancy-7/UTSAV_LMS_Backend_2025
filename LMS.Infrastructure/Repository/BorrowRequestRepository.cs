@@ -151,7 +151,9 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
                             _context.Books.Update(bookData);
                         }
 
-                        existingRequest.DueDate = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(14));
+                        int borrowingPeriod = await _systemConfigService.GetMaxBorrowPeriodAsync();
+
+                        existingRequest.DueDate = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(borrowingPeriod));
                         break;
 
                     case RequestStatus.Returned:

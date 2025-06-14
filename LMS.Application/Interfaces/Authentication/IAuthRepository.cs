@@ -4,10 +4,10 @@ namespace LMS_Backend.LMS.Application.Interfaces.Authentication
 {
     public interface IAuthService
     {
-        Task<User> GetUserByEmailAsync(string email);
-        string GenerateResetToken();
-        Task<bool> CheckUserExistsAsync(string email);
-        Task<bool> UpdatePasswordDB(string newPassword, User user);
-        Task<int> GenerateAndSendOtpAsync(string email);
+        public Task<User> GetUserByEmailAsync(string email);
+        public string GenerateResetToken();
+        public Task<bool> CheckUserExistsAsync(string email);
+        public Task<bool> UpdatePasswordDB(string newPassword, User user);
+        public Task<int> GenerateAndSendOtpAsync(string email);
     }
 }

@@ -5,10 +5,10 @@ namespace LMS_Backend.LMS.Application.Interfaces.GenreManagement
 {
     public interface IGenreRepository
     {
-        Task<IEnumerable<GenreDTO>> GetAllGenresQuery();
-        Task<GenreDTO?> GetGenreByIdQuery(int id);
-        Task<int> AddGenreQuery(CreateGenreDTO genre, int createdBy);
-        Task<int> UpdateGenreQuery(UpdateGenreDTO genre, int updatedBy);
-        Task<bool> DeleteGenreQuery(int id);
+        public Task<IEnumerable<GenreDTO>> GetAllGenresQuery();
+        public Task<GenreDTO?> GetGenreByIdQuery(int id);
+        public Task<int> AddGenreQuery(CreateGenreDTO genre, int createdBy);
+        public Task<int> UpdateGenreQuery(UpdateGenreDTO genre, int updatedBy);
+        public Task<bool> DeleteGenreQuery(int id);
     }
 }
