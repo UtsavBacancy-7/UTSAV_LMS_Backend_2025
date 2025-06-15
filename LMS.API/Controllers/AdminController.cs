@@ -1,10 +1,8 @@
 ﻿using System.Security.Claims;
 using Asp.Versioning;
 using LMS_Backend.LMS.Application.Interfaces;
-using LMS_Backend.LMS.Application.Interfaces.GenreManagement;
 using LMS_Backend.LMS.Application.Interfaces.UserManagement;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LMS_Backend.LMS.API.Controllers
