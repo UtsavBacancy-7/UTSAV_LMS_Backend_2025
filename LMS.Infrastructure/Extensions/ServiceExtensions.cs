@@ -25,6 +25,7 @@ namespace LMS_Backend.LMS.Infrastructure.Extensions
             services.AddScoped<IWishlistAndNotificationRepository, WishlistAndNotificationRepository>();
             services.AddScoped<ITransactionHistoryRepository, TransactionHistoryRepository>();
             services.AddScoped<IDashboardStatRepository, DashboardStatRepository>();
+            services.AddScoped<IStudentDashboardStatRepository, StudentDashboardStatRepository>();
             services.AddScoped<ISystemConfigRepository, SystemConfigRepository>();
             services.AddScoped<IGenreRepository, GenreRepository>();
         }
@@ -40,6 +41,7 @@ namespace LMS_Backend.LMS.Infrastructure.Extensions
             services.AddScoped<IWishlistAndNotificationService, WishlistAndNotificationService>();
             services.AddScoped<ITransactionHistoryService, TransactionService>();
             services.AddScoped<IDashboardStatService, DashboardStatService>();
+            services.AddScoped<IStudentDashboardStatService, StudentDashboardStatService>();
             services.AddScoped<ISystemConfigService, SystemConfigService>();
             services.AddScoped<IEmailService, EmailHelper>();
             services.AddScoped<JwtTokenHelper>();

@@ -203,7 +203,7 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
                     if (returnRequestToPatch.Status == Domain.Enums.RequestStatus.Approved)
                     {
                         returnRequest.ApprovedBy = updatedBy;
-                        returnRequest.ApprovedDate = DateOnly.FromDateTime(DateTime.Today); ;
+                        returnRequest.ApprovedDate = DateOnly.FromDateTime(DateTime.Today); 
 
                         if (returnRequest.BorrowRequest != null)
                         {
