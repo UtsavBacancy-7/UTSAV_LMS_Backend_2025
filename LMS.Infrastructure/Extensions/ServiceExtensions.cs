@@ -5,6 +5,7 @@ using LMS_Backend.LMS.Application.Interfaces.BookTransactions;
 using LMS_Backend.LMS.Application.Interfaces.GenreManagement;
 using LMS_Backend.LMS.Application.Interfaces.SystemConfiguration;
 using LMS_Backend.LMS.Application.Interfaces.UserManagement;
+using LMS_Backend.LMS.Application.Interfaces.WishListAndNotification;
 using LMS_Backend.LMS.Application.Services;
 using LMS_Backend.LMS.Infrastructure.Helpers;
 using LMS_Backend.LMS.Infrastructure.Repository;
@@ -21,6 +22,7 @@ namespace LMS_Backend.LMS.Infrastructure.Extensions
             services.AddScoped<IGenreRepository, GenreRepository>();
             services.AddScoped<IBorrowRequestRepository, BorrowRequestRepository>();
             services.AddScoped<IReturnRequestRepository, ReturnRequestRepository>();
+            services.AddScoped<IWishlistAndNotificationRepository, WishlistAndNotificationRepository>();
             services.AddScoped<ITransactionHistoryRepository, TransactionHistoryRepository>();
             services.AddScoped<IDashboardStatRepository, DashboardStatRepository>();
             services.AddScoped<ISystemConfigRepository, SystemConfigRepository>();
@@ -35,6 +37,7 @@ namespace LMS_Backend.LMS.Infrastructure.Extensions
             services.AddScoped<IGenreService, GenreService>();
             services.AddScoped<IBorrowService, BorrowService>();
             services.AddScoped<IReturnService, ReturnService>();
+            services.AddScoped<IWishlistAndNotificationService, WishlistAndNotificationService>();
             services.AddScoped<ITransactionHistoryService, TransactionService>();
             services.AddScoped<IDashboardStatService, DashboardStatService>();
             services.AddScoped<ISystemConfigService, SystemConfigService>();

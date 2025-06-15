@@ -2,6 +2,7 @@
 using LMS_Backend.LMS.Application.DTOs.BookTransaction;
 using LMS_Backend.LMS.Application.Interfaces.BookTransactions;
 using LMS_Backend.LMS.Application.Interfaces.SystemConfiguration;
+using LMS_Backend.LMS.Application.Interfaces.WishListAndNotification;
 using LMS_Backend.LMS.Common.Exceptions;
 using LMS_Backend.LMS.Domain.Entities;
 using LMS_Backend.LMS.Infrastructure.Context;
@@ -14,8 +15,10 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
     {
         private readonly IMapper _mapper;
         private readonly ISystemConfigService _systemConfig;
-        public ReturnRequestRepository(ApplicationDBContext context, IMapper mapper, ISystemConfigService systemConfig): base(context)
+        private readonly IWishlistAndNotificationService _wishlistAndNotificationService;
+        public ReturnRequestRepository(ApplicationDBContext context, IMapper mapper, ISystemConfigService systemConfig, IWishlistAndNotificationService wishlistAndNotificationService): base(context)
         {
+            _wishlistAndNotificationService = wishlistAndNotificationService;
             _systemConfig = systemConfig;
             _mapper = mapper;
         }
@@ -230,10 +233,11 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
                             // Increase available copies in Books table
                             var book = await _context.Books.FindAsync(borrowRequest.BookId);
                             if (book != null)
-                            {
+                            {  
                                 book.AvailableCopies++;
                                 book.UpdatedAt = DateTime.UtcNow;
                                 book.UpdatedBy = updatedBy;
+                                await _wishlistAndNotificationService.ProcessReturnedBookNotificationsAsync(book.BookId);
                             }
                         }
                     }
@@ -249,7 +253,7 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
                 }
             }
 
-            return false; // No changes were made
+            return false;
         }
     }
 }

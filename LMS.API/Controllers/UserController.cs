@@ -53,7 +53,6 @@ namespace LMS_Backend.LMS.API.Controllers
             try
             {
                 var users = await _userService.GetAllUsersAsync();
-                Console.WriteLine(users);
                 return Ok(new { success = true, message = "Users fetched successfully.", data = users });
             }
             catch (Exception ex)

@@ -119,5 +119,57 @@ namespace LMS_Backend.LMS.Infrastructure.Helpers
 
             await SendEmailAsync(toEmail, emailSubject, emailBody);
         }
+
+        public async Task SendWishlistAvailableEmailAsync(string toEmail, string studentName, string bookTitle, int availableCopies)
+        {
+            string emailSubject = $"{bookTitle} is now available at BookNest!";
+
+            string availabilityMessage = availableCopies == 1
+                ? "Hurry! Only 1 copy remains available."
+                : $"Hurry! Only {availableCopies} copies remain available.";
+
+            string emailBody = $@"
+                    <div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;'>
+                        <h2 style='color: #2c3e50; text-align: center;'>Good news, {studentName}!</h2>
+            
+                        <p style='font-size: 18px; color: #34495e; text-align: center;'>
+                            The book you wished for is now available in our library.
+                        </p>
+            
+                        <div style='background-color: #f8f9fa; padding: 20px; border-radius: 8px; 
+                                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); margin: 20px 0; text-align: center;'>
+                            <h3 style='color: #2980b9; margin-top: 0;'>{bookTitle}</h3>
+                            <p style='font-size: 16px;'>
+                                <strong>Status:</strong> Available for borrowing
+                            </p>
+                            <p style='color: {(availableCopies < 3 ? "#e74c3c" : "#27ae60")}; font-weight: bold;'>
+                                {availabilityMessage}
+                            </p>
+                            <a href='https://yourlibrarydomain.com/books/details' 
+                               style='display: inline-block; background-color: #3498db; color: white; 
+                                      padding: 10px 20px; text-decoration: none; border-radius: 5px; 
+                                      margin-top: 15px;'>
+                                Borrow Now
+                            </a>
+                        </div>
+            
+                        <p style='font-size: 16px; color: #34495e; text-align: center;'>
+                            To secure your copy:
+                        </p>
+                        <ol style='font-size: 15px; color: #34495e; max-width: 400px; margin: 0 auto;'>
+                            <li>Login to your BookNest account</li>
+                            <li>Visit the book details page</li>
+                            <li>Click 'Borrow' to reserve your copy</li>
+                            <li>Collect from library within 24 hours</li>
+                        </ol>
+            
+                        <div style='margin-top: 30px; text-align: center; font-size: 14px; color: #7f8c8d;'>
+                            <p>This notification was sent because you added this book to your wishlist.</p>
+                            <p>You can manage your wishlist notifications in your account settings.</p>
+                        </div>
+                    </div>";
+
+            await SendEmailAsync(toEmail, emailSubject, emailBody);
+        }
     }
 }
