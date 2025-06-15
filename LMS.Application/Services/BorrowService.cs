@@ -34,6 +34,11 @@ namespace LMS_Backend.LMS.Application.Services
             return await _borrowRequestRepository.GetBorrowRequestByIdQuery(id);
         }
 
+        public async Task<IEnumerable<BorrowResponseDTO>?> GetBorrowRequestByUserIdAsync(int id)
+        {
+            return await _borrowRequestRepository.GetBorrowRequestByUserIdQuery(id);
+        }
+
         public async Task<bool> PatchBorrowRequestAsync(int id, JsonPatchDocument<BorrowRequestUpdateStatusDTO> patchDoc, int updatedBy)
         {
             return await _borrowRequestRepository.PatchBorrowRequestQuery(id, patchDoc, updatedBy);

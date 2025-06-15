@@ -21,6 +21,7 @@ namespace LMS_Backend.LMS.Infrastructure.Extensions
             services.AddScoped<IGenreRepository, GenreRepository>();
             services.AddScoped<IBorrowRequestRepository, BorrowRequestRepository>();
             services.AddScoped<IReturnRequestRepository, ReturnRequestRepository>();
+            services.AddScoped<ITransactionHistoryRepository, TransactionHistoryRepository>();
             services.AddScoped<IDashboardStatRepository, DashboardStatRepository>();
             services.AddScoped<ISystemConfigRepository, SystemConfigRepository>();
             services.AddScoped<IGenreRepository, GenreRepository>();
@@ -34,6 +35,7 @@ namespace LMS_Backend.LMS.Infrastructure.Extensions
             services.AddScoped<IGenreService, GenreService>();
             services.AddScoped<IBorrowService, BorrowService>();
             services.AddScoped<IReturnService, ReturnService>();
+            services.AddScoped<ITransactionHistoryService, TransactionService>();
             services.AddScoped<IDashboardStatService, DashboardStatService>();
             services.AddScoped<ISystemConfigService, SystemConfigService>();
             services.AddScoped<IEmailService, EmailHelper>();

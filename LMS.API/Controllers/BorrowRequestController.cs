@@ -19,9 +19,11 @@ namespace LMS_Backend.LMS.API.Controllers
     public class BorrowRequestController : ControllerBase
     {
         private readonly IBorrowService _borrowService;
+        private readonly ITransactionHistoryService _transactionHistoryService;
 
-        public BorrowRequestController(IBorrowService borrowService)
+        public BorrowRequestController(IBorrowService borrowService, ITransactionHistoryService transactionHistoryService)
         {
+            _transactionHistoryService = transactionHistoryService;
             _borrowService = borrowService;
         }
 
@@ -46,9 +48,25 @@ namespace LMS_Backend.LMS.API.Controllers
             }
         }
 
+        [HttpGet("borrow-requests-by-userId")]
+        [Authorize(Roles = "Student")]
+        public async Task<IActionResult> GetBorrowRequestByUserId([FromQuery]int id)
+        {
+            try
+            {
+                var loggedInUser = GetLoggedInUserId();
+                var request = await _borrowService.GetBorrowRequestByUserIdAsync(loggedInUser);
+                return request != null ? Ok(request) : NotFound($"Borrow request with ID {id} not found");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving borrow request");
+            }
+        }
+
         [HttpGet("borrow-requests-by-id")]
-        [Authorize(Roles = "Administrator, Librarian")]
-        public async Task<IActionResult> GetBorrowRequestById([FromQuery]int id)
+        [Authorize(Roles = "Administrator, Librarian, Student")]
+        public async Task<IActionResult> GetBorrowRequestById([FromQuery] int id)
         {
             try
             {
@@ -74,7 +92,7 @@ namespace LMS_Backend.LMS.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
             }
         }
 
@@ -114,6 +132,38 @@ namespace LMS_Backend.LMS.API.Controllers
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error deleting borrow request");
+            }
+        }
+
+
+        [HttpGet("get-all")]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> GetAllTransaction()
+        {
+            try
+            {
+                var transaction = await _transactionHistoryService.GetAllTransactionAsync();
+                return transaction != null ? Ok(transaction) : NotFound("No Transaction found");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving borrow request");
+            }
+        }
+
+        [HttpGet("get-by-userId")]
+        [Authorize(Roles = "Student")]
+        public async Task<IActionResult> GetTransactionByUserId()
+        {
+            try
+            {
+                var loggedInUser = GetLoggedInUserId();
+                var transaction = await _transactionHistoryService.GetAllTransactionByUserIdAsync(loggedInUser);
+                return transaction != null ? Ok(transaction) : NotFound($"No Transaction found with {loggedInUser} id.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving borrow request");
             }
         }
     }

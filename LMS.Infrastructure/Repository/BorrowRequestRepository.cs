@@ -82,6 +82,7 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
             var requestList = await _context.BorrowRequests.Include(s => s.User).Include(s => s.Book).Where(s => !s.IsDeleted).Select(s => new BorrowResponseDTO
             {
                 BorrowRequestId = s.BorrowRequestId,
+                UserId = s.UserId,
                 FirstName = s.User.FirstName,
                 Title = s.Book.Title,
                 LastName = s.User.LastName,
@@ -101,6 +102,7 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
             var request = await _context.BorrowRequests.Where(s => s.BorrowRequestId == id).Include(s => s.User).Include(s => s.Book).Select(s => new BorrowResponseDTO
             {
                 BorrowRequestId = s.BorrowRequestId,
+                UserId = s.UserId,
                 FirstName = s.User.FirstName,
                 LastName = s.User.LastName,
                 Title = s.Book.Title,
@@ -113,6 +115,26 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
             }).FirstOrDefaultAsync();
 
             return request;
+        }   
+
+        public async Task<IEnumerable<BorrowResponseDTO>?> GetBorrowRequestByUserIdQuery(int id)
+        {
+            var requestList = await _context.BorrowRequests.Where(s => s.UserId == id).Include(s => s.User).Include(s => s.Book).Select(s => new BorrowResponseDTO
+            {
+                BorrowRequestId = s.BorrowRequestId,
+                UserId = s.UserId,
+                FirstName = s.User.FirstName,
+                LastName = s.User.LastName,
+                Title = s.Book.Title,
+                Email = s.User.Email,
+                Status = s.Status,
+                RequestDate = s.RequestDate,
+                ApprovedDate = s.ApprovedDate,
+                DueDate = s.DueDate,
+                ReturnDate = s.ReturnDate
+            }).ToListAsync();
+
+            return requestList;
         }
 
         public async Task<bool> PatchBorrowRequestQuery(int id, JsonPatchDocument<BorrowRequestUpdateStatusDTO> patchDoc, int updatedBy)
