@@ -8,6 +8,7 @@ namespace LMS_Backend.LMS.Application.DTOs.BookTransaction
     {
         public int BorrowRequestId { get; set; }
         public string Title { get; set; }
+        public string? CoverImageUrl { get; set; }
         public DateOnly? IssuedDate { get; set; }
         public DateOnly? DueDate { get; set; }
         public DateOnly? ReturnDate { get; set; }

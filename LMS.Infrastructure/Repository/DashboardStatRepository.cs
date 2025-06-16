@@ -20,6 +20,7 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
             var totalGenresTask =  await GetTotalGenresQuery();
             var totalReviewsTask = await GetTotalReviewsQuery();
             var recentIssuedBooksTask = await GetRecentIssuedBooksQuery();
+            var totalBookCopies = await GetTotalCopies();
 
             // Create and return the DTO with all the statistics
             return new DashboardsStatDTO
@@ -31,6 +32,7 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
                 Librarians = totalLibrariansTask,
                 Genres = totalGenresTask,
                 Reviews = totalReviewsTask,
+                TotalCopies = totalBookCopies,
                 RecentIssuedBooks = recentIssuedBooksTask,
             };
         }
@@ -58,6 +60,12 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
         public async Task<int> GetTotalBooksQuery()
         {
             int total = await _context.Books.CountAsync();
+            return total;
+        }
+
+        public async Task<int> GetTotalCopies()
+        {
+            int total = await _context.Books.Select(s => s.TotalCopies).SumAsync();
             return total;
         }
 

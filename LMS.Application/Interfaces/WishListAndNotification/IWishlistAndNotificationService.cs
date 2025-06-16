@@ -7,10 +7,8 @@ namespace LMS_Backend.LMS.Application.Interfaces.WishListAndNotification
         Task<bool> AddToWishlistAsync(int userId, int bookId);
         Task<bool> RemoveFromWishlistAsync(int wishlistId);
         Task<IEnumerable<WishlistResponseDTO>> GetUserWishlistAsync(int userId);
-        Task<bool> CheckBookInWishlistAsync(int userId, int bookId);
 
         // Notification Methods
-        Task SendWishlistNotificationAsync(int bookId);
         Task<IEnumerable<NotificationDTO>> GetUserNotificationsAsync(int userId);
         Task MarkNotificationAsReadAsync(int notificationId);
         Task<int> GetUnreadNotificationCountAsync(int userId);

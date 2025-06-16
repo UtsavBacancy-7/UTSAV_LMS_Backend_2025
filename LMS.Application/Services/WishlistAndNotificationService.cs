@@ -17,11 +17,6 @@ namespace LMS_Backend.LMS.Application.Services
             return await _wishlistAndNotificationRepository.AddToWishlistQuery(userId, bookId);
         }
 
-        public async Task<bool> CheckBookInWishlistAsync(int userId, int bookId)
-        {
-            return await _wishlistAndNotificationRepository.CheckBookInWishlistQuery(userId, bookId);
-        }
-
         public async Task<int> GetUnreadNotificationCountAsync(int userId)
         {
             return await _wishlistAndNotificationRepository.GetUnreadNotificationCountQuery(userId);
@@ -50,11 +45,6 @@ namespace LMS_Backend.LMS.Application.Services
         public async Task<bool> RemoveFromWishlistAsync(int wishlistId)
         {
             return await _wishlistAndNotificationRepository.RemoveFromWishlistQuery(wishlistId);
-        }
-
-        public async Task SendWishlistNotificationAsync(int bookId)
-        {
-            await _wishlistAndNotificationRepository.SendWishlistNotificationQuery(bookId);
         }
     }
 }

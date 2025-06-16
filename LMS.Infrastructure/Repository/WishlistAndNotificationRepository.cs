@@ -5,6 +5,7 @@ using LMS_Backend.LMS.Common.Exceptions;
 using LMS_Backend.LMS.Domain.Entities;
 using LMS_Backend.LMS.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 
 namespace LMS_Backend.LMS.Infrastructure.Repository
 {
@@ -18,7 +19,7 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
 
         public async Task<bool> AddToWishlistQuery(int userId, int bookId)
         {
-            var existingRecords = await _context.WishLists.FirstOrDefaultAsync(s => s.UserId == userId && s.BookId == bookId && !s.IsAvailable);
+            var existingRecords = await _context.WishLists.FirstOrDefaultAsync(s => s.UserId == userId && s.BookId == bookId && !s.IsAvailable && s.DeletedAt == null);
 
             if (existingRecords != null)
                 throw new AlreadyExistsException<string>($"Book is already in Wishlist.");
@@ -34,28 +35,34 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public Task<bool> CheckBookInWishlistQuery(int userId, int bookId)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<int> GetUnreadNotificationCountQuery(int userId)
         {
-            return await _context.Notifications.CountAsync(n => n.UserId == userId && !n.IsRead);
+            return await _context.Notifications.CountAsync(n => n.UserId == userId && !n.IsRead && n.Type == Domain.Enums.NotificationType.Application);
         }
 
-        public Task<IEnumerable<NotificationDTO>> GetUserNotificationsQuery(int userId)
+        public async Task<IEnumerable<NotificationDTO>> GetUserNotificationsQuery(int userId)
         {
-            throw new NotImplementedException();
+            var notificationList = await _context.Notifications
+                .Where(s => s.UserId == userId && s.Type == Domain.Enums.NotificationType.Application)
+                .Select(s => new NotificationDTO { 
+                    NotificationId = s.NotificationId,  
+                    Message = s.Message,
+                    UserId = s.UserId,
+                    IsRead = s.IsRead
+                })
+                .ToListAsync();
+
+            return notificationList;
         }
 
         public async Task<IEnumerable<WishlistResponseDTO>> GetUserWishlistQuery(int userId)
         {
             var wishList = await _context.WishLists.Include(s => s.Book)
-                                                   .Where(s => s.UserId == userId && !s.IsAvailable)
+                                                   .Where(s => s.UserId == userId && !s.IsAvailable && s.DeletedAt == null)
                                                    .Select(s => new WishlistResponseDTO
                                                    {    
                                                        WishListId = s.WishListId,
+                                                       CoverImageUrl = s.Book.CoverImageUrl,
                                                        Title = s.Book.Title,
                                                        Author = s.Book.Author,
                                                    }).ToListAsync();
@@ -66,11 +73,14 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
         public async Task MarkNotificationAsReadQuery(int notificationId)
         {
             var notification = await _context.Notifications.FindAsync(notificationId);
-            if (notification != null)
-            {
-                notification.IsRead = true;
-                await _context.SaveChangesAsync();
-            }
+
+            if (notification == null)
+                throw new DataNotFoundException<string>($"No Any Notification Find with {notificationId} id.");
+
+            notification.IsRead = true;
+
+            _context.Notifications.Remove(notification);
+            await _context.SaveChangesAsync();
         }
 
         public async Task ProcessReturnedBookNotificationsQuery(int bookId)
@@ -90,8 +100,8 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
                 entry.IsAvailable = true;
                 _context.WishLists.Update(entry);
 
-                // Create notification
-                var notification = new Notification
+                    
+                var emailNotification = new Notification
                 {
                     UserId = entry.UserId,
                     Message = $"The book '{entry.Book.Title}' you wished for is now available!",
@@ -99,7 +109,18 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
                     IsRead = false,
                     CreatedAt = DateTime.UtcNow
                 };
-                await _context.Notifications.AddAsync(notification);
+
+                var appNotification = new Notification
+                {
+                    UserId = entry.UserId,
+                    Message = $"The book '{entry.Book.Title}' you wished for is now available!",
+                    Type = Domain.Enums.NotificationType.Application,
+                    IsRead = false,
+                    CreatedAt = DateTime.UtcNow
+                };
+
+                await _context.Notifications.AddAsync(appNotification);
+                await _context.Notifications.AddAsync(emailNotification);
 
                 await _emailService.SendWishlistAvailableEmailAsync(
                     entry.User.Email,
@@ -121,11 +142,6 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
 
             await _context.SaveChangesAsync();
             return true;
-        }
-
-        public Task SendWishlistNotificationQuery(int bookId)
-        {
-            throw new NotImplementedException();
         }
     }
 }

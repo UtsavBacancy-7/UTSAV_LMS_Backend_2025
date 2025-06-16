@@ -9,6 +9,7 @@
         public int Librarians { get; set; }
         public int Genres { get; set; }
         public int Reviews { get; set; }
+        public int TotalCopies { get; set; }
         public List<RecentIssuedBookDto>? RecentIssuedBooks { get; set; }
     }
 }

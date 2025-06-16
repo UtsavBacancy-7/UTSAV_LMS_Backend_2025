@@ -1,11 +1,7 @@
 ﻿using System.Security.Claims;
 using Asp.Versioning;
-using LMS_Backend.LMS.Application.DTOs.User;
-using LMS_Backend.LMS.Application.Interfaces.UserManagement;
 using LMS_Backend.LMS.Application.Interfaces.WishListAndNotification;
-using LMS_Backend.LMS.Application.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LMS_Backend.LMS.API.Controllers
@@ -57,6 +53,25 @@ namespace LMS_Backend.LMS.API.Controllers
                 var createdBy = GetLoggedInUserId();
                 var status = await _wishlistAndNotificationService.AddToWishlistAsync(createdBy, bookId);
                 return Ok(new { success = true, message = "Book added successfully in wishlist.", data = status });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { success = false, message = $"{ex.Message}" });
+            }
+        }
+
+        [HttpPost("remove")]
+        [Authorize(Roles = "Student")]
+        public async Task<IActionResult> RemoveFromWishList([FromQuery] int wishlistId)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                var createdBy = GetLoggedInUserId();
+                var status = await _wishlistAndNotificationService.RemoveFromWishlistAsync(wishlistId);
+                return Ok(new { success = true, message = "Book removed successfully from wishlist.", data = status });
             }
             catch (Exception ex)
             {

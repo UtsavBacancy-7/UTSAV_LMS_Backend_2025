@@ -13,6 +13,7 @@ namespace LMS_Backend.LMS.Application.Interfaces
         public Task<int> GetTotalLibrariansQuery();
         public Task<int> GetTotalGenresQuery();
         public Task<int> GetTotalReviewsQuery();
+        public Task<int> GetTotalCopies();
         public Task<List<RecentIssuedBookDto>> GetRecentIssuedBooksQuery(int count = 5);
     }
 }

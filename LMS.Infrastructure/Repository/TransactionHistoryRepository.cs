@@ -18,6 +18,7 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
                                                             .Select(s => new TransactionHistoryDTO
                                                             {
                                                                 BorrowRequestId = s.BorrowRequestId,
+                                                                CoverImageUrl = s.BorrowRequest.Book.CoverImageUrl,
                                                                 Title = s.BorrowRequest.Book.Title,
                                                                 IssuedDate = s.BorrowRequest.ApprovedDate,
                                                                 ReturnDate = s.BorrowRequest.ReturnDate,
@@ -38,6 +39,7 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
                                                                         .Select(s => new TransactionHistoryDTO
                                                                         {
                                                                             BorrowRequestId = s.BorrowRequestId,
+                                                                            CoverImageUrl = s.BorrowRequest.Book.CoverImageUrl,
                                                                             Title = s.BorrowRequest.Book.Title,
                                                                             IssuedDate = s.BorrowRequest.ApprovedDate,
                                                                             ReturnDate = s.BorrowRequest.ReturnDate,
