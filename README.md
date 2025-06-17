@@ -167,7 +167,7 @@
 ### Installation
 1. Clone the repository:
   ```bash
-  git clone https://github.com/your-repo/LMS.git
+  git clone https://github.com/UtsavBacancy-7/Utsav_LMS_Backend_2025.git
   cd LMS/LMS.API
   ```
 2. Configure the database:
