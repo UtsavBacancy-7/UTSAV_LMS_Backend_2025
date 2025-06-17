@@ -2,6 +2,7 @@
 using Asp.Versioning;
 using LMS_Backend.LMS.Application.DTOs.BookManagement;
 using LMS_Backend.LMS.Application.Interfaces.BooksManagement;
+using LMS_Backend.LMS.Application.Interfaces.PaginationServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -16,10 +17,12 @@ namespace LMS_Backend.LMS.API.Controllers
     public class BooksController : ControllerBase
     {
         private readonly IBookService _bookService;
+        private readonly IPaginationService _paginationService;
 
-        public BooksController(IBookService bookService)
+        public BooksController(IBookService bookService, IPaginationService paginationService)
         {
             _bookService = bookService;
+            _paginationService = paginationService;
         }
 
         private int GetLoggedInUserId()
@@ -147,6 +150,19 @@ namespace LMS_Backend.LMS.API.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, new { success = false, message = $"Error updating book: {ex.Message}" });
+            }
+        }
+
+        [HttpGet("book-page")]
+        public async Task<IActionResult> GetBookPage([FromQuery] int bookPerPage, [FromQuery] int pageNo)
+        {
+            try
+            {
+                var bookList = await _paginationService.GetPageAsync(bookPerPage, pageNo);
+                return Ok(new { success = true, message = "Page is fetch Successfully.", data = bookList });
+            }catch(Exception ex)
+            {
+                return StatusCode(500, new { success = false, message = $"Error fetching page: {ex.Message}" });
             }
         }
     }

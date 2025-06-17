@@ -11,8 +11,6 @@ namespace LMS_Backend.LMS.Application.DTOs.User
         public string MobileNo { get; set; }
 
         public bool IsActive { get; set; }
-
-        [Required(ErrorMessage = "Password hash is required.")]
-        public string PasswordHash { get; set; }
+        public string? PasswordHash { get; set; }
     }
 }
