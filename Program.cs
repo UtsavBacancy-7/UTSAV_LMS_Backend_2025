@@ -5,7 +5,10 @@ using LMS_Backend.LMS.Infrastructure.Context;
 using LMS_Backend.LMS.Infrastructure.Extensions;
 using LMS_Backend.LMS.Infrastructure.Mappers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -84,6 +87,9 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddHealthChecks()
+    .AddCheck<SqlServerHealthCheck>("sqlserver");
+    
 // Register AutoMapper 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
@@ -94,6 +100,28 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.MapHealthChecks("/health", new HealthCheckOptions
+{
+    ResponseWriter = async (context, report) =>
+    {
+        context.Response.ContentType = "application/json";
+        var response = new
+        {
+            Status = report.Status.ToString(),
+            Checks = report.Entries.Select(e => new
+            {
+                Name = e.Key,
+                Status = e.Value.Status.ToString(),
+                Description = e.Value.Description,
+                Duration = e.Value.Duration
+            }),
+            TotalDuration = report.TotalDuration
+        };
+        await context.Response.WriteAsJsonAsync(response);
+    }
+});
+
 
 app.UseCors("RestrictedCors");
 
@@ -110,3 +138,31 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public class SqlServerHealthCheck : IHealthCheck
+{
+    private readonly string _connectionString;
+
+    public SqlServerHealthCheck(IConfiguration configuration)
+    {
+        _connectionString = configuration.GetConnectionString("DefaultConnection");
+    }
+
+    public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context,
+        CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            await using var connection = new SqlConnection(_connectionString);
+            await connection.OpenAsync(cancellationToken);
+            await using var command = connection.CreateCommand();
+            command.CommandText = "SELECT 1;";
+            await command.ExecuteScalarAsync(cancellationToken);
+            return HealthCheckResult.Healthy();
+        }
+        catch (Exception ex)
+        {
+            return HealthCheckResult.Unhealthy(exception: ex);
+        }
+    }
+}
