@@ -8,7 +8,7 @@ namespace LMS_Backend.LMS.API.Middlewares
         private readonly ILogger<RateLimitMiddleware> _logger;
         private static readonly ConcurrentDictionary<string, (int Count, DateTime Expiry)> _requestCounts = new();
 
-        private const int MAX_REQUESTS = 100; // Max requests allowed per minute
+        private const int MAX_REQUESTS = 50; // Max requests allowed per minute
         private static readonly TimeSpan TIME_WINDOW = TimeSpan.FromMinutes(1);
 
         public RateLimitMiddleware(RequestDelegate next)

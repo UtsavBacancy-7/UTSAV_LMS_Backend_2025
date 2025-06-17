@@ -22,7 +22,6 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
             var recentIssuedBooksTask = await GetRecentIssuedBooksQuery();
             var totalBookCopies = await GetTotalCopies();
 
-            // Create and return the DTO with all the statistics
             return new DashboardsStatDTO
             {
                 Books =  totalBooksTask,

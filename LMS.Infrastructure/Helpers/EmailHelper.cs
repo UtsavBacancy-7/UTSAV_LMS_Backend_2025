@@ -51,8 +51,14 @@ namespace LMS_Backend.LMS.Infrastructure.Helpers
             <div style='text-align: center; margin-top: 30px;'>
                 <p style='color: #7f8c8d; font-size: 14px;'>Best Regards,</p>
                 <p style='color: #2c3e50; font-size: 16px; font-weight: bold;'>The BookNest Team</p>
+                <div style='margin-top: 20px;'>
+                    <img src='https://drive.google.com/uc?export=view&id=1J-OM4zr7GXGMuI6Hzl6pT8HOsAL98z5n' 
+                         alt='BookNest Logo'
+                         style='width: 200px; height: auto; display: block; margin: 0 auto;' />
+                </div>
             </div>
         </div>";
+
 
         public async Task SendUserRegistrationEmailAsync(string toEmail, string? password)
         {

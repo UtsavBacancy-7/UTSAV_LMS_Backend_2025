@@ -40,11 +40,11 @@ namespace LMS_Backend.LMS.API.Controllers
             try
             {
                 var requests = await _borrowService.GetAllBorrowRequestsAsync();
-                return requests.Any() ? Ok(requests) : NotFound("No borrow requests found");
+                return Ok(requests);
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving borrow requests");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving borrow requests: " + ex.Message);
             }
         }
 
@@ -56,11 +56,11 @@ namespace LMS_Backend.LMS.API.Controllers
             {
                 var loggedInUser = GetLoggedInUserId();
                 var request = await _borrowService.GetBorrowRequestByUserIdAsync(loggedInUser);
-                return request != null ? Ok(request) : NotFound($"Borrow request with ID {id} not found");
+                return Ok(request);
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving borrow request");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving borrow request: " + ex.Message);
             }
         }
 
@@ -71,11 +71,11 @@ namespace LMS_Backend.LMS.API.Controllers
             try
             {
                 var request = await _borrowService.GetBorrowRequestByIdAsync(id);
-                return request != null ? Ok(request) : NotFound($"Borrow request with ID {id} not found");
+                return Ok(request);
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving borrow request");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving borrow request: "+ ex.Message);
             }
         }
 
@@ -92,7 +92,7 @@ namespace LMS_Backend.LMS.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -130,8 +130,8 @@ namespace LMS_Backend.LMS.API.Controllers
                 return success ? NoContent() : NotFound($"Borrow request with ID {id} not found");
             }
             catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error deleting borrow request");
+            { 
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error deleting borrow request: "+ ex.Message);
             }
         }
 
@@ -147,7 +147,7 @@ namespace LMS_Backend.LMS.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving borrow request");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving borrow request: "+ex.Message);
             }
         }
 
@@ -163,7 +163,7 @@ namespace LMS_Backend.LMS.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving borrow request");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving borrow request: "+ex.Message);
             }
         }
     }

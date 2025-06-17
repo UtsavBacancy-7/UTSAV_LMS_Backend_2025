@@ -129,10 +129,6 @@ namespace LMS_Backend.LMS.API.Controllers
 
             try
             {
-                //public bool MyBool { get; set; }
-
-                Console.WriteLine($"Received boolean value from client: {patchDoc}");
-
                 var updatedBy = GetLoggedInUserId();
                 var result = await _userService.PatchUserAsync(id, patchDoc, updatedBy);
 

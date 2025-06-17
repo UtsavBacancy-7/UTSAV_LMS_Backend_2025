@@ -32,7 +32,7 @@ namespace LMS_Backend.LMS.API.Controllers
             try
             {
                 var loggedInUser = GetLoggedInUserId();
-               var wishList = await _wishlistAndNotificationService.GetUserWishlistAsync(loggedInUser);
+                var wishList = await _wishlistAndNotificationService.GetUserWishlistAsync(loggedInUser);
                 return Ok(new { success = true, message = "Wishlist fetched successfully.", data = wishList });
             }
             catch (Exception ex)

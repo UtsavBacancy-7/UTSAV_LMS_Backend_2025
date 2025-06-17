@@ -63,7 +63,8 @@ builder.Services.AddApiVersioning(options =>
     options.ApiVersionReader = ApiVersionReader.Combine(
         new UrlSegmentApiVersionReader(),
         new HeaderApiVersionReader("X-Api-Version"));
-}).AddMvc()
+})
+.AddMvc()
 .AddApiExplorer(options =>
 {
     options.GroupNameFormat = "'v'V";

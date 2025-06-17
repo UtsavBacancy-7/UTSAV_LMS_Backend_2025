@@ -1,9 +1,7 @@
-﻿using System.Collections.Concurrent;
-
-namespace LMS_Backend.LMS.Infrastructure.Helpers
+﻿namespace LMS_Backend.LMS.Infrastructure.Helpers
 {
     public static class OtpStore
     {
-        public static ConcurrentDictionary<string, (int Otp, DateTime Expiry)> UserOtps = new();
+        public static Dictionary<string, (int Otp, DateTime Expiration)> UserOtps { get; set; } = new();
     }
 }

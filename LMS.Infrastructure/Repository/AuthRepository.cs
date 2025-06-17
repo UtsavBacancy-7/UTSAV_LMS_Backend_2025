@@ -60,9 +60,17 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
         public async Task<bool> ResetPassword(ResetPwdDTO resetPwd)
         {
             var user = await _authService.GetUserByEmailAsync(resetPwd.Email);
-
             if (user == null)
                 throw new DataNotFoundException<string>("User not found.");
+
+            if (!OtpStore.UserOtps.TryGetValue(resetPwd.Email, out var otpInfo))
+                throw new Exception("OTP not found or expired.");
+
+            if (DateTime.UtcNow > otpInfo.Expiration)
+                throw new Exception("OTP has expired.");
+
+            if (otpInfo.Otp != resetPwd.Otp)
+                throw new Exception("OTP mismatched.");
 
             return await _authService.UpdatePasswordDB(resetPwd.NewPassword, user);
         }

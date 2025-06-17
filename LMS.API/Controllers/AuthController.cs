@@ -66,9 +66,15 @@ namespace LMS_Backend.LMS.API.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-
-            var message = await _authRepository.SendOtpToEmail(dto);
-            return Ok(new { success = true, message = "OTP sent to email." });
+            try
+            {
+                var message = await _authRepository.SendOtpToEmail(dto);
+                return Ok(new { success = true, message = "OTP sent to email." });
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, new { success = false, Message = $"An unexpected error occurred. : {ex.Message}" });
+            }
         }
 
         [HttpPost("ResetPassword")]

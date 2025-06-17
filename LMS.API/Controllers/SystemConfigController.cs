@@ -35,7 +35,6 @@ namespace LMS_Backend.LMS.API.Controllers
             return Ok(new { success = true, data = configs });
         }
 
-        // GET: api/SystemConfig/key/MaxBorrowLimit
         [HttpGet("key")]
         public async Task<IActionResult> GetConfigByKey([FromQuery]string key)
         {
@@ -46,7 +45,6 @@ namespace LMS_Backend.LMS.API.Controllers
             return Ok(new { success = true, key, value });
         }
 
-        // PATCH: api/SystemConfig
         [HttpPatch]
         public async Task<IActionResult> UpdateConfig([FromBody] List<SystemConfig> dtos)
         {

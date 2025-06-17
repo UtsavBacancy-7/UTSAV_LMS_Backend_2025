@@ -3,8 +3,6 @@ using LMS_Backend.LMS.Application.Interfaces;
 using LMS_Backend.LMS.Common.Exceptions;
 using LMS_Backend.LMS.Infrastructure.Helpers;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.WebUtilities;
-using System.Text;
 using LMS_Backend.LMS.Domain.Entities;
 using LMS_Backend.LMS.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
@@ -49,16 +47,6 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
             {
                 throw;
             }
-        }
-
-        public string GenerateResetToken()
-        {
-            // Generate a reset token (Base64-encoded GUID)
-            string token = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Substring(0, 20);
-            Console.WriteLine(token);
-            string encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
-
-            return encodedToken;
         }
 
         public async Task<bool> UpdatePasswordDB(string newPassword, User user)
