@@ -41,7 +41,8 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
             } else if (requestedBook == null)
             {
                 throw new DataNotFoundException<string>($"Not book found with {request.BookId} id.");
-            }else if (requestedBook.AvailableCopies <= 0)
+            }
+            else if (requestedBook.AvailableCopies <= 0)
             {
                 throw new ApplicationException("Book is not available for Borrow.");
             }
@@ -167,10 +168,15 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
                         existingRequest.ApprovedDate = DateOnly.FromDateTime(DateTime.UtcNow);
 
                         var bookData = await _context.Books.FindAsync(existingRequest.BookId);
-                        if (bookData != null)
+                        if (bookData != null && bookData.AvailableCopies > 0)
                         {
                             bookData.AvailableCopies--;
                             _context.Books.Update(bookData);
+                        }
+                        else
+                        {
+                            existingRequest.Status = Domain.Enums.RequestStatus.Rejected;
+                            throw new NotImplementedException("No Copies available for borrow.");
                         }
 
                         int borrowingPeriod = await _systemConfigService.GetMaxBorrowPeriodAsync();
