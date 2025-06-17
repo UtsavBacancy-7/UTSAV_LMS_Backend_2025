@@ -80,14 +80,14 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
 
             string message = $@"
                 <div style='font-family:Segoe UI, sans-serif; padding:20px; color:#333;'>
-                    <h2 style='color:#0A7EFF;'>LMS Password Reset Request</h2>
+                    <h2 style='color:#0A7EFF;'>BookNest Password Reset Request</h2>
                     <p>Hello,</p>
                     <p>You requested to reset your password. Please use the OTP below to proceed:</p>
                     <div style='font-size:24px; font-weight:bold; margin:20px 0; color:#0A7EFF;'>{otp}</div>
                     <p>This OTP is valid for <strong>10 minutes</strong>.</p>
                     <p>If you didn’t request this, please ignore this email or contact support.</p>
                     <hr/>
-                    <p style='font-size:12px; color:gray;'>Thank you,<br/>Library Management System Team</p>
+                    <p style='font-size:12px; color:gray;'>Thank you,<br/>BookNest Team</p>
                 </div>";
 
             await _emailService.SendEmailAsync(email, subject, message);

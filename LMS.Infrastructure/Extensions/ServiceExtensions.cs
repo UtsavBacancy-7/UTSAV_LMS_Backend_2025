@@ -3,6 +3,7 @@ using LMS_Backend.LMS.Application.Interfaces.Authentication;
 using LMS_Backend.LMS.Application.Interfaces.BooksManagement;
 using LMS_Backend.LMS.Application.Interfaces.BookTransactions;
 using LMS_Backend.LMS.Application.Interfaces.GenreManagement;
+using LMS_Backend.LMS.Application.Interfaces.PaginationServices;
 using LMS_Backend.LMS.Application.Interfaces.SystemConfiguration;
 using LMS_Backend.LMS.Application.Interfaces.UserManagement;
 using LMS_Backend.LMS.Application.Interfaces.WishListAndNotification;
@@ -22,6 +23,7 @@ namespace LMS_Backend.LMS.Infrastructure.Extensions
             services.AddScoped<IGenreRepository, GenreRepository>();
             services.AddScoped<IBorrowRequestRepository, BorrowRequestRepository>();
             services.AddScoped<IReturnRequestRepository, ReturnRequestRepository>();
+            services.AddScoped<IPaginationRepository, PaginationRepository>();
             services.AddScoped<IWishlistAndNotificationRepository, WishlistAndNotificationRepository>();
             services.AddScoped<ITransactionHistoryRepository, TransactionHistoryRepository>();
             services.AddScoped<IDashboardStatRepository, DashboardStatRepository>();
@@ -38,6 +40,7 @@ namespace LMS_Backend.LMS.Infrastructure.Extensions
             services.AddScoped<IGenreService, GenreService>();
             services.AddScoped<IBorrowService, BorrowService>();
             services.AddScoped<IReturnService, ReturnService>();
+            services.AddScoped<IPaginationService, PaginationService>();
             services.AddScoped<IWishlistAndNotificationService, WishlistAndNotificationService>();
             services.AddScoped<ITransactionHistoryService, TransactionService>();
             services.AddScoped<IDashboardStatService, DashboardStatService>();

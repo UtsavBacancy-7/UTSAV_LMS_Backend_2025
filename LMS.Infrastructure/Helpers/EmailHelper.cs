@@ -53,7 +53,7 @@ namespace LMS_Backend.LMS.Infrastructure.Helpers
                 <p style='color: #2c3e50; font-size: 16px; font-weight: bold;'>The BookNest Team</p>
                 <div style='margin-top: 20px;'>
                     <img src='https://drive.google.com/uc?export=view&id=1J-OM4zr7GXGMuI6Hzl6pT8HOsAL98z5n' 
-                         alt='BookNest Logo'
+                         alt='Bacancy Logo'
                          style='width: 200px; height: auto; display: block; margin: 0 auto;' />
                 </div>
             </div>
@@ -67,7 +67,7 @@ namespace LMS_Backend.LMS.Infrastructure.Helpers
                 <div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;'>
                     <h2 style='color: #2c3e50; text-align: center;'>Welcome to BookNest</h2>
                     <p style='font-size: 18px; color: #34495e; text-align: center;'>
-                        Your account has been successfully created in our Library Management System.
+                        Your account has been successfully created in our BookNest - Library Management System.
                     </p>
                     <div style='background-color: #ffffff; padding: 20px; border-radius: 8px; 
                                 box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); text-align: center;'>
