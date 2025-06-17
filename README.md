@@ -92,7 +92,8 @@
 
 ## 🧩 API Versioning
 - This project implements **API Versioning** using `Asp.Versioning.Http` to support backward compatibility and future scalability. Each API endpoint is versioned using URL segment-based routing (e.g., `/api/v1/...`), allowing clients to consume a stable contract while the backend evolves.
-###🔹 **Benefits:**
+
+🔹 **Benefits:**
 - Multiple versions can coexist (v1, v2, etc.)
 - Easy deprecation and maintenance of older versions
 - Clear separation of logic per version for better traceability
@@ -103,7 +104,8 @@
 
 ## 🔒 Rate Limiting
 - To prevent abuse and ensure fair resource usage, **Rate Limiting** is implemented using middleware (`AspNetCoreRateLimit`) based on IP address and client identity.
-###🔹 **Features:**
+
+🔹 **Features:**
 - Configurable request quotas per IP (e.g., 100 requests per 15 minutes)
 - Throttling policy stored in `appsettings.json`
 - HTTP 429 (`Too Many Requests`) returned when the limit is exceeded
