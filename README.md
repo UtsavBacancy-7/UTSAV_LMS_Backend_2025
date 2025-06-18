@@ -1,4 +1,4 @@
-# BookNest : Library Management System (LMS) - Backend API
+# BookNest: Library Management System (LMS) - Backend API
 ![.NET Core](https://img.shields.io/badge/.NET-8.0-blue)
 ![Entity Framework Core](https://img.shields.io/badge/EF_Core-8.0-green)
 ![SQL Server](https://img.shields.io/badge/SQL_Server-20.0-red)
@@ -22,14 +22,14 @@
 ```
 ├── LMS.API/
 │   ├── Controllers/ # API endpoints grouped by domain
-│   ├── Middlewares/ # Custom middleware (JWT, error handling)
+│   ├── Middlewares/ # Custom middleware (Logger, Rate Limiting)
 │   ├── Properties/
 │   └── appsettings.json # Configuration settings
 │
 ├── LMS.Application/ # Application layer
 │   ├── DTOs/ # Data Transfer Objects
 │   ├── Interfaces/ # Service contracts
-│   └── Services/ # Business logic implementation
+│   └── Services/ # Calling Repository method implementation
 │
 ├── LMS.Common/ # Common layer
 │   ├── Exceptions/ # Custom Exceptions 
@@ -62,7 +62,7 @@
 
 ## Features
 ### 🛡️ Authentication
-- JWT Token Based Authentication
+- JWT Token-Based Authentication
 - Role-Based Authorization (Admin, Librarian, Student)
 ### 👥 Roles & Responsibilities
 - 👑 Admin
@@ -81,7 +81,7 @@
   - View personal transaction history
   - Add books to wishlist
 
-## 🎯 Features
+## 🎯 Features Summary
 - 🔐 JWT Authentication + Role-based access
 - 📚 Book Management (Add/Edit/View)
 - 🔄 Borrow & Return Book Flow
@@ -92,22 +92,24 @@
 
 ## 🧩 API Versioning
 - This project implements **API Versioning** using `Asp.Versioning.Http` to support backward compatibility and future scalability. Each API endpoint is versioned using URL segment-based routing (e.g., `/api/v1/...`), allowing clients to consume a stable contract while the backend evolves.
-###🔹 **Benefits:**
+
+🔹 **Benefits:**
 - Multiple versions can coexist (v1, v2, etc.)
 - Easy deprecation and maintenance of older versions
 - Clear separation of logic per version for better traceability
 - 📘 Example:
   - GET /api/v1/books
   - GET /api/v2/books
----
 
 ## 🔒 Rate Limiting
 - To prevent abuse and ensure fair resource usage, **Rate Limiting** is implemented using middleware (`AspNetCoreRateLimit`) based on IP address and client identity.
-###🔹 **Features:**
+
+🔹 **Features:**
 - Configurable request quotas per IP (e.g., 100 requests per 15 minutes)
 - Throttling policy stored in `appsettings.json`
-- HTTP 429 (`Too Many Requests`) returned when the limit is exceeded
+- HTTP 429 (`Too Many Requests`) is returned when the limit is exceeded
 
+## Role-based module access
 | Feature / Role          | Admin | Librarian | Student |
 |-------------------------|-------|-----------|---------|
 | Register                | ✗     | ✗         | ✓       |
@@ -131,6 +133,7 @@
 | Receive Email Alert     | ✗     | ✓         | ✓       |
 | Book Review (Add/View)  | ✗     | ✗         | ✓       |
 
+## API's Endpoints
 | Category        | Method | Endpoint                                      | Description                          |
 |-----------------|--------|-----------------------------------------------|--------------------------------------|
 | **Auth**        | POST   | `/auth/register`                              | Student registration                 |
@@ -167,16 +170,33 @@
 ### Installation
 1. Clone the repository:
   ```bash
-  git clone https://github.com/your-repo/LMS.git
+  git clone https://github.com/UtsavBacancy-7/Utsav_LMS_Backend_2025.git
   cd LMS/LMS.API
   ```
 2. Configure the database:
   - Update connection string in appsettings.json:
   ```json
+  "Jwt": {
+    "Issuer": "http://localhost/",
+    "Audience": "http://localhost/",
+    "SecretKey": "<JWT-Secret-key-for-token-generation>",
+    "ExpireTimeInMinutes": "<Token-expire-time>"
+  },
+  "EmailSettings": {
+    "SmtpServer": "smtp.gmail.com",
+    "SmtpPort": "<smtp-port-(eg., 587)>",
+    "EnableSsl": true,
+    "Username": "<user-email-or-username>",
+    "SenderEmail": "<sender-email-address>",
+    "SenderName": "BookNest Team",
+    "SenderPassword": "<google-app-passkey>"
+  },
   "ConnectionStrings": {
     "DefaultConnection": "Server=.;Database=LMS_DB;Trusted_Connection=True;"
   }
   ```
+(Notes: https://developers.google.com/identity/passkeys for generating Google App Passkey.)
+
 3. Apply database migrations:
   ```bash
   dotnet ef database update
