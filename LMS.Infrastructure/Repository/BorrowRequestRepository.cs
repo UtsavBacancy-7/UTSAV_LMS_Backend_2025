@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure.Core;
 using LMS_Backend.LMS.Application.DTOs.BookTransaction;
 using LMS_Backend.LMS.Application.DTOs.NewFolder;
 using LMS_Backend.LMS.Application.Interfaces.BookTransactions;
@@ -94,12 +95,15 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
                 ReturnDate = s.ReturnDate
             }).ToListAsync();
 
+            if (requestList == null)
+                throw new DataNotFoundException<string>($"No data found.");
+
             return requestList;
         }
 
         public async Task<BorrowResponseDTO?> GetBorrowRequestByIdQuery(int id)
         {
-            var request = await _context.BorrowRequests.Where(s => s.BorrowRequestId == id).Include(s => s.User).Include(s => s.Book).Select(s => new BorrowResponseDTO
+            var request = await _context.BorrowRequests.Where(s => s.BorrowRequestId == id && !s.IsDeleted).Include(s => s.User).Include(s => s.Book).Select(s => new BorrowResponseDTO
             {
                 BorrowRequestId = s.BorrowRequestId,
                 UserId = s.UserId,
@@ -114,12 +118,15 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
                 ReturnDate = s.ReturnDate
             }).FirstOrDefaultAsync();
 
+            if (request == null)
+                throw new DataNotFoundException<string>($"No data found with id {id}.");
+
             return request;
         }   
 
         public async Task<IEnumerable<BorrowResponseDTO>?> GetBorrowRequestByUserIdQuery(int id)
         {
-            var requestList = await _context.BorrowRequests.Where(s => s.UserId == id).Include(s => s.User).Include(s => s.Book).Select(s => new BorrowResponseDTO
+            var requestList = await _context.BorrowRequests.Where(s => s.UserId == id  && !s.IsDeleted).Include(s => s.User).Include(s => s.Book).Select(s => new BorrowResponseDTO
             {
                 BorrowRequestId = s.BorrowRequestId,
                 UserId = s.UserId,
@@ -133,6 +140,9 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
                 DueDate = s.DueDate,
                 ReturnDate = s.ReturnDate
             }).ToListAsync();
+
+            if (requestList == null)
+                throw new DataNotFoundException<string>($"No data found with userId: {id}.");
 
             return requestList;
         }

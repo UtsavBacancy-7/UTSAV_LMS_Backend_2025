@@ -2,6 +2,7 @@
 using Asp.Versioning;
 using LMS_Backend.LMS.Application.Interfaces;
 using LMS_Backend.LMS.Application.Interfaces.UserManagement;
+using LMS_Backend.LMS.Common.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -49,6 +50,14 @@ namespace LMS_Backend.LMS.API.Controllers
 
                 return Ok(new { success = true, message = "User profile fetched successfully", data = profileData });
             }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
+            }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, new { success = false, message = "An error occurred while fetching user profile", error = ex.Message });
@@ -63,6 +72,14 @@ namespace LMS_Backend.LMS.API.Controllers
             {
                 var statsData =  await _dashboardStatService.GetAllStatsAsync();
                 return Ok(new { success = true, message = "Data fetched successfully", data = statsData });
+            }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
             }
             catch (Exception ex)
             {

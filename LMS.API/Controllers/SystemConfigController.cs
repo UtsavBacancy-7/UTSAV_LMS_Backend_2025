@@ -2,6 +2,7 @@
 using Asp.Versioning;
 using LMS_Backend.LMS.Application.DTOs.BookTransaction;
 using LMS_Backend.LMS.Application.Interfaces.SystemConfiguration;
+using LMS_Backend.LMS.Common.Exceptions;
 using LMS_Backend.LMS.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -31,18 +32,48 @@ namespace LMS_Backend.LMS.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllConfigs()
         {
-            var configs = await _systemConfigService.GetAllConfigsAsync();
-            return Ok(new { success = true, data = configs });
+            try
+            {
+                var configs = await _systemConfigService.GetAllConfigsAsync();
+                return Ok(new { success = true, data = configs });
+            }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { success = false, message = "Internal server error", error = ex.Message });
+            }
         }
 
         [HttpGet("key")]
         public async Task<IActionResult> GetConfigByKey([FromQuery]string key)
         {
-            var value = await _systemConfigService.GetConfigValueByKeyAsync(key);
-            if (value == null)
-                return NotFound(new { success = false, message = $"Config with key '{key}' not found" });
+            try
+            {
+                var value = await _systemConfigService.GetConfigValueByKeyAsync(key);
+                if (value == null)
+                    return NotFound(new { success = false, message = $"Config with key '{key}' not found" });
 
-            return Ok(new { success = true, key, value });
+                return Ok(new { success = true, key, value });
+            }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { success = false, message = "Internal server error", error = ex.Message });
+            }   
         }
 
         [HttpPatch]
@@ -63,6 +94,14 @@ namespace LMS_Backend.LMS.API.Controllers
             catch (KeyNotFoundException ex)
             {
                 return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
             }
             catch (Exception ex)
             {

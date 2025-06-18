@@ -2,6 +2,7 @@
 using Asp.Versioning;
 using LMS_Backend.LMS.Application.DTOs.GenreManagement;
 using LMS_Backend.LMS.Application.Interfaces.GenreManagement;
+using LMS_Backend.LMS.Common.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -37,6 +38,14 @@ namespace LMS_Backend.LMS.API.Controllers
                 var result = await _genreService.GetAllGenresAsync();
                 return Ok(new { success = true, message = "Genres fetched successfully.", data = result });
             }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
+            }
             catch (Exception ex)
             {
                 return StatusCode(500, new { success = false, message = ex.Message });
@@ -54,6 +63,14 @@ namespace LMS_Backend.LMS.API.Controllers
                     return NotFound(new { success = false, message = "Genre not found." });
 
                 return Ok(new { success = true, message = "Genre fetched successfully.", data = result });
+            }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
             }
             catch (Exception ex)
             {
@@ -93,6 +110,14 @@ namespace LMS_Backend.LMS.API.Controllers
                 var genreId = await _genreService.UpdateGenreAsync(updateGenreDto, loggedInUser);
                 return Ok(new { success = true, message = "Genre updated successfully.", genreId });
             }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
+            }
             catch (Exception ex)
             {
                 return StatusCode(500, new { success = false, message = ex.Message });
@@ -110,6 +135,14 @@ namespace LMS_Backend.LMS.API.Controllers
                     return NotFound(new { success = false, message = "Genre not found." });
 
                 return Ok(new { success = true, message = "Genre deleted successfully." });
+            }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
             }
             catch (Exception ex)
             {

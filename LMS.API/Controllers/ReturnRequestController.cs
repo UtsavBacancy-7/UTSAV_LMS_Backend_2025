@@ -38,6 +38,14 @@ namespace LMS_Backend.LMS.API.Controllers
                 var returnRequests = await _returnService.GetAllReturnRequestsAsync();
                 return Ok(returnRequests);
             }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
+            }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
@@ -59,6 +67,14 @@ namespace LMS_Backend.LMS.API.Controllers
 
                 return Ok(returnRequest);
             }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
+            }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
@@ -79,6 +95,14 @@ namespace LMS_Backend.LMS.API.Controllers
                 }
 
                 return Ok(returnRequests);
+            }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
             }
             catch (Exception ex)
             {
@@ -106,6 +130,14 @@ namespace LMS_Backend.LMS.API.Controllers
                 }
 
                 return StatusCode(StatusCodes.Status500InternalServerError, "Failed to create return request");
+            }
+            catch (AlreadyExistsException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
             }
             catch (InvalidOperationException ex)
             {
@@ -140,6 +172,14 @@ namespace LMS_Backend.LMS.API.Controllers
 
                 return NotFound();
             }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
+            }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
@@ -161,6 +201,14 @@ namespace LMS_Backend.LMS.API.Controllers
                 }
 
                 return NotFound();
+            }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
             }
             catch (Exception ex)
             {

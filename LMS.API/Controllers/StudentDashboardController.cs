@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using LMS_Backend.LMS.Application.Services;
 using Microsoft.AspNetCore.Authorization;
+using LMS_Backend.LMS.Common.Exceptions;
 
 namespace LMS_Backend.LMS.API.Controllers
 {
@@ -37,6 +38,14 @@ namespace LMS_Backend.LMS.API.Controllers
                 var loggedInUser = GetLoggedInUserId();
                 var statsData = await _studentDashboardStatService.GetAllStats(loggedInUser);
                 return Ok(new { success = true, message = "Data fetched successfully", data = statsData });
+            }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
             }
             catch (Exception ex)
             {
