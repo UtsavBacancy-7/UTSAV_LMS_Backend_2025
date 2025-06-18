@@ -81,7 +81,7 @@
   - View personal transaction history
   - Add books to wishlist
 
-## 🎯 Features
+## 🎯 Features Summary
 - 🔐 JWT Authentication + Role-based access
 - 📚 Book Management (Add/Edit/View)
 - 🔄 Borrow & Return Book Flow
@@ -100,7 +100,6 @@
 - 📘 Example:
   - GET /api/v1/books
   - GET /api/v2/books
----
 
 ## 🔒 Rate Limiting
 - To prevent abuse and ensure fair resource usage, **Rate Limiting** is implemented using middleware (`AspNetCoreRateLimit`) based on IP address and client identity.
@@ -110,6 +109,7 @@
 - Throttling policy stored in `appsettings.json`
 - HTTP 429 (`Too Many Requests`) returned when the limit is exceeded
 
+## Role based module access
 | Feature / Role          | Admin | Librarian | Student |
 |-------------------------|-------|-----------|---------|
 | Register                | ✗     | ✗         | ✓       |
@@ -133,6 +133,7 @@
 | Receive Email Alert     | ✗     | ✓         | ✓       |
 | Book Review (Add/View)  | ✗     | ✗         | ✓       |
 
+## API's Endpoints
 | Category        | Method | Endpoint                                      | Description                          |
 |-----------------|--------|-----------------------------------------------|--------------------------------------|
 | **Auth**        | POST   | `/auth/register`                              | Student registration                 |
@@ -175,10 +176,27 @@
 2. Configure the database:
   - Update connection string in appsettings.json:
   ```json
+  "Jwt": {
+    "Issuer": "http://localhost/",
+    "Audience": "http://localhost/",
+    "SecretKey": "<JWT-Secret-key-for-token-generation>",
+    "ExpireTimeInMinutes": "<Token-expire-time>"
+  },
+  "EmailSettings": {
+    "SmtpServer": "smtp.gmail.com",
+    "SmtpPort": "<smtp-port-(eg., 587)>",
+    "EnableSsl": true,
+    "Username": "<user-email-or-username>",
+    "SenderEmail": "<sender-email-address>",
+    "SenderName": "BookNest Team",
+    "SenderPassword": "<google-app-passkey>"
+  },
   "ConnectionStrings": {
     "DefaultConnection": "Server=.;Database=LMS_DB;Trusted_Connection=True;"
   }
   ```
+(Notes: https://developers.google.com/identity/passkeys for genearate google app passkey.)
+
 3. Apply database migrations:
   ```bash
   dotnet ef database update
