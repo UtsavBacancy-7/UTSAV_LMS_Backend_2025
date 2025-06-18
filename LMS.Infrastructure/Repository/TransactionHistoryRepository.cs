@@ -13,8 +13,8 @@ namespace LMS_Backend.LMS.Infrastructure.Repository
         {
             var transaction = await _context.ReturnRequests.Include(s => s.BorrowRequest)
                                                            .ThenInclude(s => s.Book)
-                                                           .Where(s => s.BorrowRequest.UserId == id &&                                                s.BorrowRequest.Status != Domain.Enums.RequestStatus.Pending ||
-                                                           s.Status != Domain.Enums.RequestStatus.Pending)
+                                                           .Where(s => s.BorrowRequest.UserId == id &&                                                (s.BorrowRequest.Status != Domain.Enums.RequestStatus.Pending ||
+                                                           s.Status != Domain.Enums.RequestStatus.Pending))
                                                             .Select(s => new TransactionHistoryDTO
                                                             {
                                                                 BorrowRequestId = s.BorrowRequestId,

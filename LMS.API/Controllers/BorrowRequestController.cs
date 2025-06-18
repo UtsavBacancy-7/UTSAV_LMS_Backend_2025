@@ -42,6 +42,14 @@ namespace LMS_Backend.LMS.API.Controllers
                 var requests = await _borrowService.GetAllBorrowRequestsAsync();
                 return Ok(requests);
             }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
+            }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving borrow requests: " + ex.Message);
@@ -58,6 +66,14 @@ namespace LMS_Backend.LMS.API.Controllers
                 var request = await _borrowService.GetBorrowRequestByUserIdAsync(loggedInUser);
                 return Ok(request);
             }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
+            }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving borrow request: " + ex.Message);
@@ -72,6 +88,14 @@ namespace LMS_Backend.LMS.API.Controllers
             {
                 var request = await _borrowService.GetBorrowRequestByIdAsync(id);
                 return Ok(request);
+            }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
             }
             catch (Exception ex)
             {
@@ -89,6 +113,14 @@ namespace LMS_Backend.LMS.API.Controllers
                 var success = await _borrowService.AddBorrowRequestAsync(request, createdBy);
 
                 return success ? NoContent() : NotFound($"Borrow request is not created.");
+            }
+            catch (AlreadyExistsException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
             }
             catch (Exception ex)
             {
@@ -112,6 +144,14 @@ namespace LMS_Backend.LMS.API.Controllers
 
                 return success ? NoContent() : NotFound($"Borrow request with ID {id} not found");
             }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
+            }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
@@ -129,6 +169,14 @@ namespace LMS_Backend.LMS.API.Controllers
 
                 return success ? NoContent() : NotFound($"Borrow request with ID {id} not found");
             }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
+            }
             catch (Exception ex)
             { 
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error deleting borrow request: "+ ex.Message);
@@ -145,6 +193,14 @@ namespace LMS_Backend.LMS.API.Controllers
                 var transaction = await _transactionHistoryService.GetAllTransactionAsync();
                 return transaction != null ? Ok(transaction) : NotFound("No Transaction found");
             }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
+            }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving borrow request: "+ex.Message);
@@ -160,6 +216,14 @@ namespace LMS_Backend.LMS.API.Controllers
                 var loggedInUser = GetLoggedInUserId();
                 var transaction = await _transactionHistoryService.GetAllTransactionByUserIdAsync(loggedInUser);
                 return transaction != null ? Ok(transaction) : NotFound($"No Transaction found with {loggedInUser} id.");
+            }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
             }
             catch (Exception ex)
             {

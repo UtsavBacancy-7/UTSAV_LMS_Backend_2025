@@ -74,7 +74,7 @@ namespace LMS_Backend.LMS.API.Controllers
             catch (DataNotFoundException<string> ex)
             {
                 return NotFound(new { success = false, message = ex.Message });
-            } 
+            }
             catch (Exception ex)
             {
                 return StatusCode(500, new { success = false, Message = $"An unexpected error occurred. : {ex.Message}" });

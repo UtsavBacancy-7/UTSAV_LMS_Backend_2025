@@ -2,6 +2,7 @@
 using Asp.Versioning;
 using LMS_Backend.LMS.Application.DTOs.User;
 using LMS_Backend.LMS.Application.Interfaces.UserManagement;
+using LMS_Backend.LMS.Common.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -40,6 +41,14 @@ namespace LMS_Backend.LMS.API.Controllers
                 var userId = await _userService.AddUserAsync(userDto, createdBy);
                 return Ok(new { success = true, message = "User added successfully.", userId });
             }
+            catch (AlreadyExistsException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
+            }
             catch (Exception ex)
             {
                 return StatusCode(500, new { success = false, message = $"Error adding user: {ex.Message}" });
@@ -54,6 +63,14 @@ namespace LMS_Backend.LMS.API.Controllers
             {
                 var users = await _userService.GetAllUsersAsync();
                 return Ok(new { success = true, message = "Users fetched successfully.", data = users });
+            }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
             }
             catch (Exception ex)
             {
@@ -73,6 +90,18 @@ namespace LMS_Backend.LMS.API.Controllers
 
                 return Ok(new { success = true, message = "User fetched successfully.", data = user });
             }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { success = false, message = $"Error adding user: {ex.Message}" });
+            }
             catch (Exception ex)
             {
                 return StatusCode(500, new { success = false, message = $"Error retrieving user: {ex.Message}" });
@@ -87,6 +116,14 @@ namespace LMS_Backend.LMS.API.Controllers
             {
                 var users = await _userService.GetUsersByRoleAsync(role);
                 return Ok(new { success = true, message = $"Users with role '{role}' fetched successfully.", data = users });
+            }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
             }
             catch (Exception ex)
             {
@@ -107,10 +144,15 @@ namespace LMS_Backend.LMS.API.Controllers
                 var updatedBy = GetLoggedInUserId();
                 var result = await _userService.UpdateUserAsync(userDto, updatedBy);
 
-                if (!result)
-                    return NotFound(new { success = false, message = $"User with ID {id} not found." });
-
                 return Ok(new { success = true, message = "User updated successfully." });
+            }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
             }
             catch (Exception ex)
             {
@@ -132,10 +174,15 @@ namespace LMS_Backend.LMS.API.Controllers
                 var updatedBy = GetLoggedInUserId();
                 var result = await _userService.PatchUserAsync(id, patchDoc, updatedBy);
 
-                if (!result)
-                    return NotFound(new { success = false, message = $"User with ID {id} not found." });
-
                 return Ok(new { success = true, message = "User patched successfully." });
+            }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
             }
             catch (Exception ex)
             {
@@ -152,10 +199,15 @@ namespace LMS_Backend.LMS.API.Controllers
                 var deletedBy = GetLoggedInUserId();
                 var result = await _userService.DeleteUserAsync(id, deletedBy);
 
-                if (!result)
-                    return NotFound(new { success = false, message = $"User with ID {id} not found." });
-
                 return Ok(new { success = true, message = "User deleted successfully." });
+            }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
             }
             catch (Exception ex)
             {

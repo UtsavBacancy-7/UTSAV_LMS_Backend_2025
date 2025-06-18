@@ -3,6 +3,7 @@ using Asp.Versioning;
 using LMS_Backend.LMS.Application.DTOs.BookManagement;
 using LMS_Backend.LMS.Application.Interfaces.BooksManagement;
 using LMS_Backend.LMS.Application.Interfaces.PaginationServices;
+using LMS_Backend.LMS.Common.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -48,6 +49,14 @@ namespace LMS_Backend.LMS.API.Controllers
 
                 return CreatedAtAction(nameof(GetBookById), new { id = bookDto.id }, new { success = true, message = "Book added successfully.", data = bookDto });
             }
+            catch (AlreadyExistsException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
+            }
             catch (Exception ex)
             {
                 return StatusCode(500, new { success = false, message = $"Internal Server Error: {ex.Message}" });
@@ -62,6 +71,14 @@ namespace LMS_Backend.LMS.API.Controllers
             {
                 var books = await _bookService.GetAllBooksAsync();
                 return Ok(new { success = true, message = "Books fetched successfully.", data = books });
+            }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
             }
             catch (Exception ex)
             {
@@ -80,6 +97,14 @@ namespace LMS_Backend.LMS.API.Controllers
                     return NotFound(new { success = false, message = $"Book with ID {id} not found." });
 
                 return Ok(new { success = true, message = "Book fetched successfully.", data = book });
+            }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
             }
             catch (Exception ex)
             {
@@ -100,6 +125,14 @@ namespace LMS_Backend.LMS.API.Controllers
                     return NotFound(new { success = false, message = $"Book with ID {id} not found or already deleted." });
 
                 return Ok(new { success = true, message = "Book deleted successfully." });
+            }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
             }
             catch (Exception ex)
             {
@@ -124,6 +157,14 @@ namespace LMS_Backend.LMS.API.Controllers
 
                 return Ok(new { success = true, message = "Book updated successfully." });
             }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
+            }
             catch (Exception ex)
             {
                 return StatusCode(500, new { success = false, message = $"Error updating book: {ex.Message}" });
@@ -147,6 +188,14 @@ namespace LMS_Backend.LMS.API.Controllers
 
                 return Ok(new { success = true, message = "Book updated successfully." });
             }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
+            }
             catch (Exception ex)
             {
                 return StatusCode(500, new { success = false, message = $"Error updating book: {ex.Message}" });
@@ -160,7 +209,16 @@ namespace LMS_Backend.LMS.API.Controllers
             {
                 var bookList = await _paginationService.GetPageAsync(bookPerPage, pageNo);
                 return Ok(new { success = true, message = "Page is fetch Successfully.", data = bookList });
-            }catch(Exception ex)
+            }
+            catch (DataNotFoundException<string> ex)
+            {
+                return NotFound(new { success = false, message = ex.Message });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { success = false, message = ex.Message });
+            }
+            catch (Exception ex)
             {
                 return StatusCode(500, new { success = false, message = $"Error fetching page: {ex.Message}" });
             }
