@@ -1,4 +1,4 @@
-# BookNest : Library Management System (LMS) - Backend API
+# BookNest: Library Management System (LMS) - Backend API
 ![.NET Core](https://img.shields.io/badge/.NET-8.0-blue)
 ![Entity Framework Core](https://img.shields.io/badge/EF_Core-8.0-green)
 ![SQL Server](https://img.shields.io/badge/SQL_Server-20.0-red)
@@ -22,14 +22,14 @@
 ```
 ├── LMS.API/
 │   ├── Controllers/ # API endpoints grouped by domain
-│   ├── Middlewares/ # Custom middleware (JWT, error handling)
+│   ├── Middlewares/ # Custom middleware (Logger, Rate Limiting)
 │   ├── Properties/
 │   └── appsettings.json # Configuration settings
 │
 ├── LMS.Application/ # Application layer
 │   ├── DTOs/ # Data Transfer Objects
 │   ├── Interfaces/ # Service contracts
-│   └── Services/ # Business logic implementation
+│   └── Services/ # Calling Repository method implementation
 │
 ├── LMS.Common/ # Common layer
 │   ├── Exceptions/ # Custom Exceptions 
@@ -62,7 +62,7 @@
 
 ## Features
 ### 🛡️ Authentication
-- JWT Token Based Authentication
+- JWT Token-Based Authentication
 - Role-Based Authorization (Admin, Librarian, Student)
 ### 👥 Roles & Responsibilities
 - 👑 Admin
@@ -107,9 +107,9 @@
 🔹 **Features:**
 - Configurable request quotas per IP (e.g., 100 requests per 15 minutes)
 - Throttling policy stored in `appsettings.json`
-- HTTP 429 (`Too Many Requests`) returned when the limit is exceeded
+- HTTP 429 (`Too Many Requests`) is returned when the limit is exceeded
 
-## Role based module access
+## Role-based module access
 | Feature / Role          | Admin | Librarian | Student |
 |-------------------------|-------|-----------|---------|
 | Register                | ✗     | ✗         | ✓       |
@@ -195,7 +195,7 @@
     "DefaultConnection": "Server=.;Database=LMS_DB;Trusted_Connection=True;"
   }
   ```
-(Notes: https://developers.google.com/identity/passkeys for genearate google app passkey.)
+(Notes: https://developers.google.com/identity/passkeys for generating Google App Passkey.)
 
 3. Apply database migrations:
   ```bash
